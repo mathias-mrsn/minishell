@@ -4,6 +4,7 @@ SRCS = 		srcs/main.c
 
 OBJS = ${SRCS:.c=.o}
 INCS	=	-I ./includes -I ./libft/includes
+LIBC	=	libft/libft.a
 CC		=	clang
 CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -rf
@@ -33,7 +34,7 @@ ${NAME}:	${OBJS}
 			@printf "%-15s ${_CYAN}${_BOLD}libft${_END}...\n" "Compiling"
 			@${MAKE} -C libft > /dev/null
 			@printf "%-15s ${_GREEN}${_BOLD}${NAME}${_END}...\n" "Compiling"
-			@${CC} ${CFLAGS} ${INCS} ${OBJS} -o ${NAME}
+			@${CC} ${CFLAGS} -lreadline ${INCS} ${OBJS} -o ${NAME} ${LIBC}
 			@printf "\n${_GREEN}${_BOLD}Compilation done !${_END}\n"
 
 clean:
