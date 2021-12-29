@@ -13,10 +13,33 @@ void	print_s(t_mini *s)
 
 /* REEL FUNCTIONS */
 
+t_mini *s(void)
+{
+	static t_mini *s;
+
+	if (!s)
+	{
+		s = __calloc(1, sizeof(t_mini));
+		if (!s)
+			return (NULL);
+		s->cmd = __calloc(1, sizeof(t_cmd));
+		if (!s->cmd)
+			return (free(s), NULL);
+	}
+	return (s);
+}
+
+void		handle(int signal)
+{
+	(void)signal;
+	get_prompt(s());
+}
+
 void	get_prompt(t_mini *s)
 {
 	char *line;
 
+	signal(SIGINT, handle);
 	line = readline("minishell $> ");
 	add_history(line);
 	s->cmd->prompt = line;
@@ -33,18 +56,14 @@ void	new_line(int signal)
 
 int main()
 {
-	t_mini mini;
+	t_mini *mini = s();
+	struct sigaction sa;
 
-	__memset(&mini, 0, sizeof(t_mini));
-	mini.cmd = malloc(sizeof(t_cmd));
-	if (mini.cmd == NULL)
-		return (1);
-	
+	__memset(&sa, 0, sizeof(struct sigaction));
 	while(1)
 	{
-		signal(SIGINT, new_line);
-		__memset(mini.cmd, 0, sizeof(t_cmd));
-		get_prompt(&mini);
-		print_s(&mini);
+		__memset(mini->cmd, 0, sizeof(t_cmd));
+		get_prompt(mini);
+		print_s(mini);
 	}
 }
