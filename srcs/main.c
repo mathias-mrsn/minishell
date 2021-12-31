@@ -32,6 +32,8 @@ t_mini *s(void)
 void		handle(int signal)
 {
 	(void)signal;
+	printf("\n");
+	rl_on_new_line();
 	get_prompt(s());
 }
 
@@ -39,12 +41,14 @@ void	get_prompt(t_mini *s)
 {
 	char *line;
 
+	__memset(s->cmd, 0, sizeof(t_cmd));
 	signal(SIGINT, handle);
 	line = readline("minishell $> ");
 	add_history(line);
 	s->cmd->prompt = line;
 	s->cmd->cmd = __split(line, ';');
 	s->nbr_cmd += 1;
+	print_s(s);
 }
 
 void	new_line(int signal)
@@ -54,16 +58,20 @@ void	new_line(int signal)
 	rl_on_new_line();
 }
 
-int main()
+int main(int ac, char **av, char **env)
 {
+	(void)ac;
+	(void)av;
+	s()->env = env;
+	for(int i = 0; env[i]; i++)
+		printf("%s", env[i]);
 	t_mini *mini = s();
 	struct sigaction sa;
 
 	__memset(&sa, 0, sizeof(struct sigaction));
 	while(1)
 	{
-		__memset(mini->cmd, 0, sizeof(t_cmd));
+		
 		get_prompt(mini);
-		print_s(mini);
 	}
 }

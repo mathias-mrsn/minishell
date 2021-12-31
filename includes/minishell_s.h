@@ -9,6 +9,7 @@ typedef struct s_cmd
 
 typedef struct s_mini
 {
+	char **env;
 	t_cmd	*cmd;
 	uint64_t nbr_cmd;
 }				t_mini;
