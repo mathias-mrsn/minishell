@@ -34,7 +34,7 @@ ${NAME}:	${OBJS}
 			@printf "%-15s ${_CYAN}${_BOLD}libft${_END}...\n" "Compiling"
 			@${MAKE} -C libft > /dev/null
 			@printf "%-15s ${_GREEN}${_BOLD}${NAME}${_END}...\n" "Compiling"
-			@${CC} ${CFLAGS} -lreadline ${INCS} ${OBJS} -o ${NAME} ${LIBC}
+			@${CC} ${CFLAGS} -g3 -fsanitize=address -lreadline ${INCS} ${OBJS} -o ${NAME} ${LIBC}
 			@printf "\n${_GREEN}${_BOLD}Compilation done !${_END}\n"
 
 clean:
