@@ -1,30 +1,36 @@
 #ifndef MINISHELL_S_H
 # define MINISHELL_S_H
 
-typedef struct s_detail
+typedef struct	s_redir
 {
-	char *string;
+	char	*out;
+	char	*in;
 	int		type;
-	int		id;
-}				t_detail;
+}				t_redir;
+
+typedef struct s_pip
+{
+	char	*command;
+	char	*option;
+	char	**args;
+	uint64_t	pip_index;
+	t_redir	redir;
+}				t_pip;
 
 typedef struct s_cmd
 {
-	char *prompt;
-	char **cmd;
-	uint64_t	nbr_cmd;
-	t_detail **cmd_splited;
+	t_pip	*pip;
+	uint64_t	pips_nbr;
 }				t_cmd;
-
-typedef struct s_env
-{
-	char **values;
-}				t_env;
 
 typedef struct s_mini
 {
-	t_env	*env;
-	t_cmd	*parse;
+	t_cmd	*cmd; //Commandes separes par ';'
+	char	**env;
+	char	*path
+	uint64_t shell_level;
+	uint64_t	cmd_index;
+
 }				t_mini;
 
 #endif
