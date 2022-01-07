@@ -27,7 +27,9 @@ typedef struct s_mini
 {
 	t_cmd	*cmd; //Commandes separes par ';'
 	char	**env;
-	char	*path
+	char	*path;
+	char	*prompt;
+	char	*whole_cmd;
 	uint64_t shell_level;
 	uint64_t	cmd_index;
 
