@@ -1,6 +1,9 @@
 NAME =		minishell
 
-SRCS = 		srcs/main.c
+SRCS = 		srcs/main.c \
+			srcs/parsing/trim_quotes.c \
+			srcs/parsing/trim_quotes_utils.c \
+			srcs/memory/s_init.c
 
 OBJS = ${SRCS:.c=.o}
 INCS	=	-I ./includes -I ./libft/includes
@@ -40,7 +43,7 @@ ${NAME}:	${OBJS}
 clean:
 			@printf "%-15s ${_RED}${_BOLD}libft binary files${_END}...\n" "Deleting"
 			@${MAKE} -C libft clean > /dev/null
-			@printf "%-15s ${_RED}${_BOLD}binary files${_END}...\n" "Deleting"
+			@printf "%-15s ${_RED}${_BOLD}${NAME} binary files${_END}...\n" "Deleting"
 			@${RM} ${OBJS}
 
 fclean:		clean
