@@ -30,6 +30,7 @@ typedef struct s_mini
 	char	*path;
 	char	*prompt;
 	char	*whole_cmd;
+	uint8_t	exit_status;
 	uint64_t shell_level;
 	uint64_t	cmd_index;
 

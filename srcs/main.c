@@ -44,6 +44,8 @@ char
 	uint64_t	index;
 
 	index = 0;
+	if (!tofind)
+		return (NULL);
 	while (NULL != s->env[index])
 	{
 		if (__SUCCESS == __str_start_with(s->env[index], tofind))
@@ -94,52 +96,62 @@ uint8_t
 	return (__SUCCESS);
 }
 
+uint64_t
+	__variable_name_length__(char *str)
+{
+	uint64_t	index;
+
+	index = 1;
+	while (str[index] && __FAILURE == __is_charset(str[index], " \'\"$"))
+		index += 1;
+	return (index - 1);
+}
+
 char
 	*__catch_variable_name__(char *str)
 {
 	uint64_t	index;
 	char		*res;
 
-	index = 0;
-	while (str[index] && __FAILURE == __is_charset(str[index], " \""))
-		index += 1;
-	if (index < 2)
-		return ((void *)-1);
-	res = (char *)__malloc(sizeof(char) * (index + 1));
+	res = (char *)__malloc(sizeof(char) * (__variable_name_length__(str) + 2));
 	if (NULL == res)
-		return (NULL);
+		return (printf("catch 1\n"), NULL);
 	index = 0;
-	while (++index && str[index] && __FAILURE == __is_charset(str[index], " \""))
+	while (++index && str[index] && __FAILURE == __is_charset(str[index], " \'\"$"))
 		res[index -  1] = str[index];
 	res[index - 1] = '\0';
 	return (res);
 }
 
 uint8_t
-	__replace_value__(t_mini *s, uint64_t *n, uint64_t *p)
+	replace_value(t_mini *s, uint64_t *n, uint64_t *p)
 {
 	char		*str;
 	char		*name;
 	uint64_t	i;
 
+	name = NULL;
+	if (0 == __variable_name_length__(s->prompt + (*p)))
+		str = __strdup("$");
+	else
+	{
+		name = __catch_variable_name__(s->prompt + (*p));
+		if (!name)
+			return (printf("replace 1\n"), __FAILURE);
+		str = __strdup(__get_env_value__(s, name));
+	}
 	i = 0;
-	name = __catch_variable_name__(s->prompt + (*p));
-	if (!name)
-		return (__FAILURE);
-	if (name == (void *)-1)
-		return (__SUCCESS);
-	str = (char *)__get_env_value__(s, name);
 	while (str && str[i])
 	{
 		s->whole_cmd[(*n)] = str[i];
 		i++;
 		(*n)++; 
 	}
-	while (s->prompt[(*p)] && __is_charset(s->prompt[(*p)], "  \""))
+	(*p)++;
+	while (s->prompt[(*p)] && __is_charset(s->prompt[(*p)], "  \'\"$"))
 		(*p)++;
-	return (free(name), __SUCCESS);
+	return (free(name), free(str), __SUCCESS);
 }
-
 
 int64_t
 	__value_lenght__(t_mini *s, uint64_t i)
@@ -148,13 +160,15 @@ int64_t
 	char *value;
 	int64_t	size;
 
-	if (__SUCCESS == __is_charset(s->prompt[i + 1], " \"\0"))
+	printf("%c\n", s->prompt[i + 1]);
+	if (__SUCCESS == __is_charset(s->prompt[i + 1], " \'\"$") || !s->prompt[i + 1])
 		return (1);
-	name = __catch_variable_name__(s->prompt);
+	name = __catch_variable_name__(s->prompt + i);
 	if (!name)
 		return (__ERROR);
 	value = (char *)__get_env_value__(s, name);
 	size = __strlen(value);
+	printf("[%llu]\n", size);
 	return (size);
 }
 
@@ -167,20 +181,27 @@ uint64_t
 
 	size = 0;
 	index = 0;
+	sw = 0;
 	while(s->prompt[index])
 	{
 		if (s->prompt[index] == '\'' && 0 == sw)
 			sw = 1;
-		if (s->prompt[index] == '\'' && 1 == sw)
+		else if (s->prompt[index] == '\'' && 1 == sw)
 			sw = 0;
-		if (s->prompt[index] == '$')
+		if (!sw && s->prompt[index] == '$')
 		{
+			printf("$ has been found\n");
 			size += __value_lenght__(s, index);
-			while(s->prompt[index] && __FAILURE == __is_charset(s->prompt[index], " \"\0"))
+			printf("size = %llu\n", size);
+			index++;
+			while(s->prompt[index] && __FAILURE == __is_charset(s->prompt[index], " \'\"$"))
 				index++;
 		}
-		index++;
-		size++;
+		else
+		{
+			index++;
+			size++;
+		}
 	}
 	return (size);
 }
@@ -195,24 +216,26 @@ uint8_t
 	sw = 0;
 	index_n = 0;
 	index_p = 0;
-	// s->whole_cmd = (char *)__malloc(sizeof(char) * (__get_new_line_size__(s) + 1));
-	// printf("%llu", new_line_size(s));
-
-	s->whole_cmd = (char *)__malloc(sizeof(char) * (10000));
+	s->whole_cmd = (char *)__malloc(sizeof(char) * (new_line_size(s) + 1));
 	if (NULL == s->whole_cmd)
 		return (__FAILURE);
 	while (s->prompt[index_p])
 	{
 		if (s->prompt[index_p] == '\'' && 0 == sw)
 			sw = 1;
-		if (s->prompt[index_p] == '\'' && 1 == sw)
+		else if (s->prompt[index_p] == '\'' && 1 == sw)
 			sw = 0;
-		if (s->prompt[index_p] == '$' && __FAILURE == __replace_value__(s, &index_n, &index_p))
-			return (__FAILURE);
+		if (!sw && s->prompt[index_p] == '$')
+		{
+			if (__FAILURE == replace_value(s, &index_n, &index_p))
+				return (__FAILURE);
+		}
 		else
+		{
 			s->whole_cmd[index_n] = s->prompt[index_p];
-		index_n += 1;
-		index_p += 1;
+			index_n += 1;
+			index_p += 1;
+		}
 	}
 	s->whole_cmd[index_n] = 0;
 	return (__SUCCESS);
@@ -272,7 +295,9 @@ int
 		add_history(mini->prompt);
 		if (__FAILURE == trim_quotes(mini))
 			return (printf("ERROR"), EXIT_FAILURE); 
-		printf("%s\n", mini->whole_cmd);
+		// printf("%llu", new_line_size(mini));
+		printf("new line = %s\n", mini->whole_cmd);
+		printf("\n	==> %zu\n", __strlen(mini->whole_cmd));
 	}
 	return (EXIT_SUCCESS);
 }
