@@ -1,11 +1,16 @@
 NAME =		minishell
 
+#			MAIN
 SRCS = 		srcs/main.c \
-			srcs/parsing/trim_quotes.c \
+			
+#			PARSING
+SRCS +=		srcs/parsing/trim_quotes.c \
 			srcs/parsing/trim_quotes_utils.c \
 			srcs/parsing/delete_quotes.c \
-			srcs/memory/s_init.c \
 			srcs/parsing/split_cmd.c \
+
+#			MEMORY
+SRCS +=		srcs/memory/s_init.c \
 
 OBJS = ${SRCS:.c=.o}
 INCS	=	-I ./includes -I ./libft/includes
