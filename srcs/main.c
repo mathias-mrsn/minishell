@@ -2,29 +2,24 @@
 
 /* HELPING FUNCTIONS */
 
-// void
-// 	print_s(t_mini *s)
-// {
-// 	printf("MINISHELL\n");
-// 	printf("\n\nEnv\n\n");
-// 	for(int j = 0; s->env->values[j]; j++)
-// 		printf("%s\n", s->env->values[j]);
-// 	printf("\nprompt = [%s]\n\n", s->parse->prompt);
-// 	for(int i = 0; s->parse->cmd[i]; i++)
-// 	{
-// 		printf("line %d : [%s]\n", i + 1, s->parse->cmd[i]);
-// 		for (int p = 0; s->parse->cmd_splited[i][p].string; p++)
-// 		{
-// 			printf("[%s] ", s->parse->cmd_splited[i][p].string);
-// 			printf("[%d] ", s->parse->cmd_splited[i][p].type);
-// 		}
-// 	}
-
-// }
+void
+	print(t_mini *s)
+{
+	for(uint64_t i = 0; i < s->nbr_cmd; i++)
+	{
+		printf("id : %llu ==> [%s]\n", i, s->cmd[i].full_cmd);
+		for (uint64_t j = 0; j < s->cmd[i].nbr_pip; j++)
+			printf("\t\tid : %llu ==> [%s]\n", j, s->cmd[i].pip[j].command);
+	}
+}
 
 /* REEL FUNCTIONS */
 
-
+void
+	__reset__(t_mini *s)
+{
+	s->nbr_cmd = 0;
+}
 
 int
 	main(int ac, char **av, char **env)
@@ -40,11 +35,15 @@ int
 	// 	return (printf("ERROR"), EXIT_FAILURE); 
 	while(1)
 	{
+		__reset__(mini);
 		mini->prompt = readline("$>");
 		add_history(mini->prompt);
-		if (__FAILURE == trim_quotes(mini))
-			return (printf("ERROR"), EXIT_FAILURE); 
+		trim_quotes(mini);
 		printf("new line = %s\n", mini->whole_cmd);
+		split_shell(mini);
+		// print(mini);
+		// __clean();
 	}
+	while(1);
 	return (EXIT_SUCCESS);
 }

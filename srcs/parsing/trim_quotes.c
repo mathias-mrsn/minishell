@@ -25,7 +25,7 @@ static uint8_t
 		(*n)++; 
 	}
 	(*p)++;
-	while (s->prompt[(*p)] && __is_charset(s->prompt[(*p)], "  \'\"$"))
+	while (s->prompt[(*p)] && __is_charset(s->prompt[(*p)], EOEV))
 		(*p)++;
 	return (free(str), __SUCCESS);
 }
@@ -37,7 +37,7 @@ static int64_t
 	char *value;
 	int64_t	size;
 
-	if (__SUCCESS == __is_charset(s->prompt[i + 1], " \'\"$") || !s->prompt[i + 1])
+	if (__SUCCESS == __is_charset(s->prompt[i + 1], EOEV) || !s->prompt[i + 1])
 		return (1);
 	name = __catch_variable_name__(s->prompt + i);
 	if (!name)
@@ -67,7 +67,7 @@ static uint64_t
 		{
 			size += __value_lenght__(s, index);
 			index++;
-			while(s->prompt[index] && __FAILURE == __is_charset(s->prompt[index], " \'\"$"))
+			while(s->prompt[index] && __FAILURE == __is_charset(s->prompt[index], EOEV))
 				index++;
 		}
 		else

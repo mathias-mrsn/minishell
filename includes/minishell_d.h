@@ -8,4 +8,8 @@
 # define INPUT 5
 # define PIPE 6
 
+# define EOEV "\"\'; $" // END OF ENVIRONMENT VARIABLE
+
+# define PIP_ERR "minishell: syntax error near unexpected token `|'"
+
 #endif

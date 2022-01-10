@@ -12,6 +12,13 @@ uint8_t		__quotes_are_right__(t_mini *s);
 uint8_t		get_env(t_mini *s, char **env);
 char		*__get_env_value__(t_mini *s, char *tofind);
 uint8_t		delete_quotes(t_mini *s);
+
+/*
+		SPLIT COMMANDS
+*/	
+
+uint8_t		split_shell(t_mini *s);
+
 /*
 		MEMORY
 */

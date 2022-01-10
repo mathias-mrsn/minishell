@@ -13,14 +13,15 @@ typedef struct s_pip
 	char	*command;
 	char	*option;
 	char	**args;
-	uint64_t	pip_index;
 	t_redir	redir;
 }				t_pip;
 
 typedef struct s_cmd
 {
 	t_pip	*pip;
-	uint64_t	pips_nbr;
+	char	*full_cmd;
+	uint64_t	pip_index;
+	uint64_t	nbr_pip;
 }				t_cmd;
 
 typedef struct s_mini
@@ -33,6 +34,7 @@ typedef struct s_mini
 	uint8_t	exit_status;
 	uint64_t shell_level;
 	uint64_t	cmd_index;
+	uint64_t	nbr_cmd;
 
 }				t_mini;
 
