@@ -44,9 +44,7 @@ int
 		add_history(mini->prompt);
 		if (__FAILURE == trim_quotes(mini))
 			return (printf("ERROR"), EXIT_FAILURE); 
-		// printf("%llu", new_line_size(mini));
 		printf("new line = %s\n", mini->whole_cmd);
-		printf("\n	==> %zu\n", __strlen(mini->whole_cmd));
 	}
 	return (EXIT_SUCCESS);
 }

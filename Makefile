@@ -3,6 +3,7 @@ NAME =		minishell
 SRCS = 		srcs/main.c \
 			srcs/parsing/trim_quotes.c \
 			srcs/parsing/trim_quotes_utils.c \
+			srcs/parsing/delete_quotes.c \
 			srcs/memory/s_init.c
 
 OBJS = ${SRCS:.c=.o}
@@ -37,7 +38,7 @@ ${NAME}:	${OBJS}
 			@printf "%-15s ${_CYAN}${_BOLD}libft${_END}...\n" "Compiling"
 			@${MAKE} -C libft > /dev/null
 			@printf "%-15s ${_GREEN}${_BOLD}${NAME}${_END}...\n" "Compiling"
-			@${CC} ${CFLAGS} -g3 -fsanitize=address -lreadline ${INCS} ${OBJS} -o ${NAME} ${LIBC}
+			@${CC} ${CFLAGS} -fsanitize=address -g3 -lreadline ${INCS} ${OBJS} -o ${NAME} ${LIBC}
 			@printf "\n${_GREEN}${_BOLD}Compilation done !${_END}\n"
 
 clean:

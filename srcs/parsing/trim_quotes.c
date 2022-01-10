@@ -14,7 +14,7 @@ static uint8_t
 	{
 		name = __catch_variable_name__(s->prompt + (*p));
 		if (!name)
-			return (printf("replace 1\n"), __FAILURE);
+			return (__FAILURE);
 		str = __strdup(__get_env_value__(s, name));
 	}
 	i = 0;
@@ -27,7 +27,7 @@ static uint8_t
 	(*p)++;
 	while (s->prompt[(*p)] && __is_charset(s->prompt[(*p)], "  \'\"$"))
 		(*p)++;
-	return (free(name), free(str), __SUCCESS);
+	return (free(str), __SUCCESS);
 }
 
 static int64_t
@@ -37,7 +37,6 @@ static int64_t
 	char *value;
 	int64_t	size;
 
-	printf("%c\n", s->prompt[i + 1]);
 	if (__SUCCESS == __is_charset(s->prompt[i + 1], " \'\"$") || !s->prompt[i + 1])
 		return (1);
 	name = __catch_variable_name__(s->prompt + i);
@@ -45,7 +44,6 @@ static int64_t
 		return (__ERROR);
 	value = (char *)__get_env_value__(s, name);
 	size = __strlen(value);
-	printf("[%llu]\n", size);
 	return (size);
 }
 
@@ -67,9 +65,7 @@ static uint64_t
 			sw = 0;
 		if (!sw && s->prompt[index] == '$')
 		{
-			printf("$ has been found\n");
 			size += __value_lenght__(s, index);
-			printf("size = %llu\n", size);
 			index++;
 			while(s->prompt[index] && __FAILURE == __is_charset(s->prompt[index], " \'\"$"))
 				index++;
@@ -125,7 +121,9 @@ uint8_t
 		return (__FAILURE); //print error message
 	if (__FAILURE == replace_env_values(s))
 		return (__FAILURE);
-	return (__SUCCESS);
+	if (__FAILURE == delete_quotes(s))
+		return (__FAILURE);
+	return (__clean(), __SUCCESS);
 	
 }
 

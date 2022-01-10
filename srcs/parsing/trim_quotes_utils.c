@@ -8,9 +8,11 @@ char
 	index = 0;
 	if (!tofind)
 		return (NULL);
+	if (__SUCCESS == __strncmp(tofind, "?", SIZE_T_MAX))
+		return (__itoa(s->exit_status));
 	while (NULL != s->env[index])
 	{
-		if (__SUCCESS == __str_start_with(s->env[index], tofind))
+		if (__SUCCESS == __str_start_with(s->env[index], tofind) && s->env[index][__strlen(tofind)] == '=')
 			return (__strnstr(s->env[index], "=", SIZE_T_MAX) + 1);
 		index++;
 	}
@@ -25,7 +27,7 @@ uint8_t
 	size = 0;
 	while(NULL != env[size])
 		size++;
-	s->env = __malloc((size + 1) * sizeof(char *));
+	s->env = malloc((size + 1) * sizeof(char *));
 	if (NULL == s->env)
 		return (__FAILURE); // free s, cmd, env
 	s->env[size] = NULL;
@@ -77,7 +79,7 @@ char
 
 	res = (char *)__malloc(sizeof(char) * (__variable_name_length__(str) + 2));
 	if (NULL == res)
-		return (printf("catch 1\n"), NULL);
+		return (NULL);
 	index = 0;
 	while (++index && str[index] && __FAILURE == __is_charset(str[index], " \'\"$"))
 		res[index -  1] = str[index];
