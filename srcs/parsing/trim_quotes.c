@@ -27,7 +27,7 @@ static uint8_t
 	(*p)++;
 	while (s->prompt[(*p)] && __is_charset(s->prompt[(*p)], EOEV))
 		(*p)++;
-	return (free(str), __SUCCESS);
+	return (__SUCCESS);
 }
 
 static int64_t
@@ -89,7 +89,7 @@ static uint8_t
 	sw = 0;
 	index_n = 0;
 	index_p = 0;
-	s->whole_cmd = (char *)__malloc(sizeof(char) * (new_line_size(s) + 1));
+	s->whole_cmd = (char *)malloc(sizeof(char) * (new_line_size(s) + 1));
 	if (NULL == s->whole_cmd)
 		return (__FAILURE);
 	while (s->prompt[index_p])
@@ -121,8 +121,8 @@ uint8_t
 		return (__FAILURE); //print error message
 	if (__FAILURE == replace_env_values(s))
 		return (__FAILURE);
-	if (__FAILURE == delete_quotes(s))
-		return (__FAILURE);
+	// if (__FAILURE == delete_quotes(s))
+	// 	return (__FAILURE);
 	return (__clean(), __SUCCESS);
 	
 }

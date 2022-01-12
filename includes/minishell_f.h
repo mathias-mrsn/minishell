@@ -18,7 +18,10 @@ uint8_t		delete_quotes(t_mini *s);
 */	
 
 uint8_t		split_shell(t_mini *s);
-
+uint8_t		delete_quotes(t_mini *s);
+char		**mini_split(char const *str, char c);
+uint8_t		split_pips(t_mini *s);
+uint8_t		__is_empty__(char *str);
 /*
 		MEMORY
 */

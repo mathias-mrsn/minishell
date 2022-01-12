@@ -9,7 +9,7 @@ void
 	{
 		printf("id : %llu ==> [%s]\n", i, s->cmd[i].full_cmd);
 		for (uint64_t j = 0; j < s->cmd[i].nbr_pip; j++)
-			printf("\t\tid : %llu ==> [%s]\n", j, s->cmd[i].pip[j].command);
+			printf("\t\tid : %llu ==> [%s]\n", j, s->cmd[i].pip[j].full);
 	}
 }
 
@@ -41,7 +41,7 @@ int
 		trim_quotes(mini);
 		printf("new line = %s\n", mini->whole_cmd);
 		split_shell(mini);
-		// print(mini);
+		print(mini);
 		// __clean();
 	}
 	while(1);

@@ -10,6 +10,7 @@ typedef struct	s_redir
 
 typedef struct s_pip
 {
+	char	*full;
 	char	*command;
 	char	*option;
 	char	**args;

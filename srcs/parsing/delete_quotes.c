@@ -1,29 +1,51 @@
 #include "minishell.h"
 
+static char
+	*__str_wo_quotes__(char *str)
+{
+	char 		*new_str;
+	uint64_t	index;
+	uint64_t	index2;
+
+	index = 0;
+	index2 = 0;
+	new_str = NULL;
+	if (!str)
+		return (NULL);
+	new_str = (char *)malloc(sizeof(char) * (__strlen_except(str, "\'\"") + 1));
+	if (NULL == new_str)
+		return (NULL);
+	while (str[index])
+	{
+		if (__FAILURE == __is_charset(str[index], "\'\""))
+			new_str[index2++] = str[index];
+		index += 1;
+	}	
+	new_str[index2] = '\0';
+	return (new_str);
+}
+
 uint8_t
 	delete_quotes(t_mini *s)
 {
-	char *new_line;
 	uint64_t	i1;
 	uint64_t	i2;
 
 	i1 = 0;
 	i2 = 0;
-	new_line = (char *)malloc(sizeof(char) * __strlen_except(s->whole_cmd, "\"\'") + 1);
-	if (NULL == new_line)
-		return (__FAILURE);
-	while(s->whole_cmd[i1])
+	while(i1 < s->nbr_cmd)
 	{
-		if (__SUCCESS == __is_charset(s->whole_cmd[i1], "\"\'"))
-			i1 += 1;
-		else
+		i2 = 0;
+		while (i2 < s->cmd[i1].nbr_pip)
 		{
-			new_line[i2] = s->whole_cmd[i1];
-			i1 += 1;
+			s->cmd[i1].pip[i2].full = __str_wo_quotes__(s->cmd[i1].pip[i2].full);
+			if (NULL == s->cmd[i1].pip[i2].full)
+				return (__FAILURE);
 			i2 += 1;
 		}
+		i1 += 1;
 	}
-	new_line[i2] = '\0';
-	s->whole_cmd = new_line;
 	return (__SUCCESS);
 }
+
+// fonction pour supprimer des les quotes d'une chaine 
