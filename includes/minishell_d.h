@@ -9,7 +9,8 @@
 # define PIPE 6
 
 # define EOEV "\"\'; $" // END OF ENVIRONMENT VARIABLE
-
+# define ET_CHARSET	"|;" // EXTRA TOKEN CHARSET
 # define PIP_ERR "minishell: syntax error near unexpected token `|'"
+# define PROGRAM_NAME "minishell"
 
 #endif

@@ -54,11 +54,52 @@ static int64_t
 }
 
 uint8_t
+	__extra_token_util__(char *str, char c)
+{
+	uint64_t index;
+
+	index = 1;
+	while (str[index] && ((str[index] >= 9 && str[index] <= 13) || str[index] == ' '))
+		index++;
+	if (str[index] == c)
+		return (__SUCCESS);
+	return (__FAILURE);
+}
+
+int8_t
+	extra_token(char *str)
+{
+	uint64_t	index;
+
+	index = 0;
+	while (str[index])
+	{
+		if (__SUCCESS == __is_charset(str[index], "|;"))
+		{
+			if (__SUCCESS == __extra_token_util__(str + index, str[index]))
+				return (printf("failure\n"), str[index]);
+		}
+		index += 1;
+	}
+	return (printf("success\n"), __SUCCESS);
+}
+
+void
+	__extra_token_err__(char c)
+{
+	__putstr(PROGRAM_NAME, 2);
+	__putstr(": syntax error near unexpected token `", 2);
+	__putchar(c, 2);
+	__putstr("'\n", 2);
+}
+
+uint8_t
 	split_shell(t_mini *s)
 {
 	int64_t	split_len;
 
-	// fonction check extra token
+	if (__SUCCESS != extra_token(s->whole_cmd))
+		return (__extra_token_err__(extra_token(s->whole_cmd)), __FAILURE);
 	if (__SUCCESS == __is_empty__(s->whole_cmd))
 		return (__FAILURE);
 	s->nbr_cmd = __nbr_cmd__(s->whole_cmd);
