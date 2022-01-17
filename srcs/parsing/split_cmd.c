@@ -110,7 +110,6 @@ uint8_t
 	if (__ERROR == split_len)
 		return (__FAILURE);
 	s->nbr_cmd = split_len;
-	printf("[%10llu]\n", s->nbr_cmd);
 	if (__FAILURE == split_pips(s))
 		return (__FAILURE);
 	if (__FAILURE == delete_quotes(s))

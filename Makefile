@@ -10,6 +10,7 @@ SRCS +=		srcs/parsing/trim_quotes.c \
 			srcs/parsing/split_cmd.c \
 			srcs/parsing/mini_split.c \
 			srcs/parsing/split_pip.c \
+			srcs/parsing/parsing_pip.c \
 
 #			MEMORY
 SRCS +=		srcs/memory/s_init.c \
