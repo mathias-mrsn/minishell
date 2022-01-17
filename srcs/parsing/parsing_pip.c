@@ -27,6 +27,7 @@ uint8_t
 {
 	size_t	len;
 	char 	*tmp;
+	// char 	*mall;
 
 	tmp = (*str);
 	len = 0;
@@ -36,10 +37,22 @@ uint8_t
 		len++;
 	}
 	printf("{%zu}\n", len);
-	pip->option = (char *)malloc(sizeof(char) * (len + 1));
 	if (NULL == pip->option)
-		return (__FAILURE);
-	__strlcpy(pip->option, (const char *)(*str) + 1, len + 1);
+	{
+		pip->option = (char *)malloc(sizeof(char) * (len + 1));
+		if (NULL == pip->option)
+			return (__FAILURE);
+		__strlcpy(pip->option, (const char *)(*str) + 1, len);
+	}
+	// else
+	// {
+	// 	mall = (char *)malloc(sizeof(char) * (len + __strlen(pip->option) + 1));
+	// 	if (NULL == mall)
+	// 		return (__FAILURE);
+	// 	__strlcat(mall, (const char *)(*str), len + 1);
+	// 	free(pip->option);
+	// 	pip->option = (char *)mall;
+	// }
 	(*str) = tmp;
 	return (__SUCCESS);
 }
@@ -57,10 +70,10 @@ uint8_t
 			get_cmd(pip, &str);
 		else if (__SUCCESS == __is_charset(*str, OPTION_CHARSET) && __FAILURE == __is_charset(str[1], OPTION_CHARSET))
 			get_option(pip, &str);
-		else if (__SUCCESS == __is_charset(*str, REDIR_CHARSET))
-			redir();
-		else
-			get_argument(pip, &str);
+		// else if (__SUCCESS == __is_charset(*str, REDIR_CHARSET))
+		// 	redir();
+		// else
+		// 	get_argument(pip, &str);
 		str++;
 	}
 	return (__SUCCESS);
