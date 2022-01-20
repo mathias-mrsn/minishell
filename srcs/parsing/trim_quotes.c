@@ -25,7 +25,7 @@ static uint8_t
 		(*n)++; 
 	}
 	(*p)++;
-	while (s->prompt[(*p)] && __is_charset(s->prompt[(*p)], EOEV))
+	while (s->prompt[(*p)] && !__is_charset(s->prompt[(*p)], EOEV))
 		(*p)++;
 	return (__SUCCESS);
 }
@@ -37,7 +37,7 @@ static int64_t
 	char *value;
 	int64_t	size;
 
-	if (__SUCCESS == __is_charset(s->prompt[i + 1], EOEV) || !s->prompt[i + 1])
+	if (__TRUE == __is_charset(s->prompt[i + 1], EOEV) || !s->prompt[i + 1])
 		return (1);
 	name = __catch_variable_name__(s->prompt + i);
 	if (!name)
@@ -67,7 +67,7 @@ static uint64_t
 		{
 			size += __value_lenght__(s, index);
 			index++;
-			while(s->prompt[index] && __FAILURE == __is_charset(s->prompt[index], EOEV))
+			while(s->prompt[index] && __FALSE == __is_charset(s->prompt[index], EOEV))
 				index++;
 		}
 		else
@@ -121,8 +121,8 @@ uint8_t
 		return (__FAILURE); //print error message
 	if (__FAILURE == replace_env_values(s))
 		return (__FAILURE);
-	// if (__FAILURE == delete_quotes(s))
-	// 	return (__FAILURE);
+	if (__FAILURE == delete_quotes(s))
+		return (__FAILURE);
 	return (__clean(), __SUCCESS);
 	
 }

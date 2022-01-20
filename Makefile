@@ -1,19 +1,6 @@
 NAME =		minishell
 
-#			MAIN
-SRCS = 		srcs/main.c \
-			
-#			PARSING
-SRCS +=		srcs/parsing/trim_quotes.c \
-			srcs/parsing/trim_quotes_utils.c \
-			srcs/parsing/delete_quotes.c \
-			srcs/parsing/split_cmd.c \
-			srcs/parsing/mini_split.c \
-			srcs/parsing/split_pip.c \
-			srcs/parsing/parsing_pip.c \
-
-#			MEMORY
-SRCS +=		srcs/memory/s_init.c \
+SRCS = 		${shell find ./srcs -name "*.c"}
 
 OBJS = ${SRCS:.c=.o}
 INCS	=	-I ./includes -I ./libft/includes

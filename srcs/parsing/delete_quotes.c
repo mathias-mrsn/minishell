@@ -17,7 +17,7 @@ static char
 		return (NULL);
 	while (str[index])
 	{
-		if (__FAILURE == __is_charset(str[index], "\'\""))
+		if (__FALSE == __is_charset(str[index], "\'\""))
 			new_str[index2++] = str[index];
 		index += 1;
 	}	

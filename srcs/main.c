@@ -5,16 +5,7 @@
 void
 	print(t_mini *s)
 {
-	for(uint64_t i = 0; i < s->nbr_cmd; i++)
-	{
-		printf("id : %llu ==> [%s]\n", i, s->cmd[i].full_cmd);
-		for (uint64_t j = 0; j < s->cmd[i].nbr_pip; j++)
-		{
-			printf("\t\tid : %llu ==> [%s]\n", j, s->cmd[i].pip[j].full);
-			printf("\t\t\t\tcommand id : %llu ==> [%s]\n", j, s->cmd[i].pip[j].command);
-			printf("\t\t\t\t\t\toption id : %llu ==> [%s]\n", j, s->cmd[i].pip[j].option);
-		}
-	}
+	printf("%s\n", s->whole_cmd);
 }
 
 /* REEL FUNCTIONS */
@@ -44,8 +35,6 @@ int
 		add_history(mini->prompt);
 		trim_quotes(mini);
 		printf("new line = %s\n", mini->whole_cmd);
-		split_shell(mini);
-		parse_hub(mini);
 		print(mini);
 		// __clean();
 	}

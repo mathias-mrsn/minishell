@@ -14,22 +14,6 @@ char		*__get_env_value__(t_mini *s, char *tofind);
 uint8_t		delete_quotes(t_mini *s);
 
 /*
-		SPLIT COMMANDS
-*/	
-
-uint8_t		split_shell(t_mini *s);
-uint8_t		delete_quotes(t_mini *s);
-char		**mini_split(char const *str, char c);
-uint8_t		split_pips(t_mini *s);
-uint8_t		__is_empty__(char *str);
-
-/*
-		PARSING
-*/
-
-uint8_t		parse_hub(t_mini *s);
-
-/*
 		MEMORY
 */
 

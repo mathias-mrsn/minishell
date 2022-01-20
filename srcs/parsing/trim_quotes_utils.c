@@ -66,7 +66,7 @@ uint64_t
 	uint64_t	index;
 
 	index = 1;
-	while (str[index] && __FAILURE == __is_charset(str[index], EOEV))
+	while (str[index] && __FALSE == __is_charset(str[index], EOEV))
 		index += 1;
 	return (index - 1);
 }
@@ -81,7 +81,7 @@ char
 	if (NULL == res)
 		return (NULL);
 	index = 0;
-	while (++index && str[index] && __FAILURE == __is_charset(str[index], EOEV))
+	while (++index && str[index] && __FALSE == __is_charset(str[index], EOEV))
 		res[index -  1] = str[index];
 	res[index - 1] = '\0';
 	return (res);
