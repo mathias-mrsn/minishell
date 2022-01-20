@@ -15,4 +15,26 @@
 # define REDIR_CHARSET "<>"
 # define OPTION_CHARSET "-"
 
+typedef enum e_token
+{
+	PIP = '|',
+	R_LEFT = '<',
+	R_RIGHT = '>',
+	SINGLE_QUOTE = '\'',
+	DOUBLE_QUOTES = '\"',
+	DR_LEFT,
+	DR_RIGHT,
+	OPTION,
+	ARGS,
+	NONE
+}			t_token;
+
+typedef enum e_quotes
+{
+	SINGLE_QUOTES,
+	DOUBLE_QUOTES,
+	MIX_QUOTES,
+	NONE
+}			t_quotes;
+
 #endif

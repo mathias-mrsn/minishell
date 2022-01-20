@@ -8,7 +8,9 @@ void
 	printf("%s\n", s->whole_cmd);
 }
 
-/* REEL FUNCTIONS */
+/*
+**	REEL FUNCTIONS
+*/
 
 void
 	__reset__(t_mini *s)
@@ -26,15 +28,11 @@ int
 	mini = s();
 	if (__FAILURE == get_env(mini, env))
 		return (EXIT_FAILURE); //free t_mini
-	// if (__FAILURE == trim_quotes(mini))
-	// 	return (printf("ERROR"), EXIT_FAILURE); 
 	while(1)
 	{
 		__reset__(mini);
-		mini->prompt = readline("$>");
-		add_history(mini->prompt);
-		trim_quotes(mini);
-		printf("new line = %s\n", mini->whole_cmd);
+		print_prompt(mini);
+		lexer(mini);
 		print(mini);
 		// __clean();
 	}
