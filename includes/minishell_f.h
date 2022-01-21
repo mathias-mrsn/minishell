@@ -25,4 +25,24 @@ t_mini		*s(void);
 
 void			print_prompt(t_mini *s);
 
+/*
+**	LEXER
+*/
+
+void			lexer(t_mini *s);
+
+/*
+**	LIST TOOLS
+*/
+
+t_boolean		add_token_back(t_lexer **head, t_quotes quotes, t_token token);
+t_boolean		add_token_front(t_lexer **head, t_quotes quotes, t_token token);
+t_lexer			*find_last_elem(t_lexer **head);
+
+/*
+**	ERRORS
+*/
+
+void			__malloc_error__(char *type);
+
 #endif

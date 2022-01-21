@@ -17,11 +17,33 @@
 // 	t_redir	redir;
 // }				t_pip;
 
+typedef enum e_token
+{
+	PIP = '|',
+	R_LEFT = '<',
+	R_RIGHT = '>',
+	S_QUOTE = '\'',
+	D_QUOTES = '\"',
+	DR_LEFT = '.',
+	DR_RIGHT = ',',
+	ARGS,
+	NONE
+}			t_token;
+
+typedef enum e_quotes
+{
+	SINGLE_QUOTES,
+	DOUBLE_QUOTES,
+	MIX_QUOTES,
+	UNSET
+}			t_quotes;
+
 typedef struct s_lexer
 {
 	t_quotes		quotes;
-	t_token			type;	
-	struct s_lexer 	*previous;
+	t_token			token;
+	char			*argument;
+	struct s_lexer 	*prev;
 	struct s_lexer 	*next;
 }				t_lexer;
 

@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_tools.c                                       :+:      :+:    :+:   */
+/*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 17:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/20 17:56:32 by mamaurai         ###   ########.fr       */
+/*   Created: 2022/01/21 09:54:18 by mamaurai          #+#    #+#             */
+/*   Updated: 2022/01/21 10:14:01 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-**	Create elem
-**	Add back
-**	Add front
-*/
-
+void
+	__malloc_error__(char *type)
+{
+	__strerr(type);
+	__putstr(" can't be allocate\n", 2);
+	__clean();
+	free(s());
+	exit(__FAILURE);
+}
