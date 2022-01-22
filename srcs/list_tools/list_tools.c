@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 17:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/21 11:41:08 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/01/22 17:00:49 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_lexer
 	t_lexer *lexer;
 
 	lexer = NULL;
-	lexer = (t_lexer *)__malloc(sizeof(t_lexer));
+	lexer = (t_lexer *)__malloc(sizeof(t_lexer), 1);
 	if (NULL == lexer)
 		return (__malloc_error__("t_lexer"), NULL);
 	lexer->prev = prev;

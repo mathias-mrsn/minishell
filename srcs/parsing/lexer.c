@@ -44,24 +44,22 @@ void
 	}
 }
 
-// void
-// 	__add_token_arg__(t_mini *s)
-// {
-// 	uint64_t	size;
+void
+	__add_token_arg__(t_mini *s)
+{
+	uint64_t	size;
+	char		*save;
 
-// 	add_token_back(&s->lexer, UNSET, ARGS);
-// 	while (__FAILURE == __is_charset(*s->prompt, TOKEN_CS))
-// 	{
-// 		if (*s->prompt == '\'')
-// 			__fill_t_quote__(s, &size);
-// 		else if (*s->prompt == '\"')
-// 			__fill_t_quotes__(s, &size);
-// 		else
-// 			size++;
-// 	}
-	// find_last_elem(&s->lexer)->argument = copier jusqu'a size 
-
-// }
+	size = 0;
+	save = s->prompt;
+	add_token_back(&s->lexer, UNSET, ARGS);
+	while (*s->prompt && __FALSE == __is_charset(*s->prompt, TOKEN_CS))
+	{
+		size++;
+		s->prompt++;
+	}
+	find_last_elem(&s->lexer)->argument = __strldup(save, size);
+}
 
 t_boolean
 	tokenizer(t_mini *s)
@@ -72,9 +70,8 @@ t_boolean
 		__add_token_r_right__(s);
 	else if (*s->prompt == R_LEFT)
 		__add_token_r_left__(s);
-	// else
-	// 	__add_token_arg__(s);
-	s->prompt++;
+	else
+		__add_token_arg__(s);
 	return (__SUCCESS);
 }
 
@@ -86,7 +83,10 @@ void
 	s = t->lexer;
 	while (s)
 	{
-		printf("%c\n", s->token);
+		if (s->token == ARGS)
+			printf("%s\n", s->argument);
+		else
+			printf("%c\n", s->token);
 		s = s->next;
 	}
 }
