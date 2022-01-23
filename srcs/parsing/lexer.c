@@ -91,7 +91,106 @@ void
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+t_boolean
+	__set_quote__(char *str, t_mini *s)
+{
+	if (lexer->quotes == SINGLE_QUOTES || lexer->quotes == DOUBLE_QUOTES)
+		lexer->quotes == MIX_QUOTES;
+	else
+		lexer->quotes == SINGLE_QUOTES;
+	while (*str != "\'" && *str != '\0')
+		str++;
+	if (!(*str))
+		return (__quotes_error__(s), __TRUE);
+	str++;
+	return (__FALSE);
+}
+
+t_boolean
+	__set_quotes__(char *str, t_mini *s)
+{
+	if (lexer->quotes == SINGLE_QUOTES || lexer->quotes == SINGLE_QUOTES)
+		lexer->quotes == MIX_QUOTES;
+	else
+		lexer->quotes == DOUBLE_QUOTES;
+	while (*str != "\"" && *str != '\0')
+		str++;
+	if (!(*str))
+		return (__quotes_error__(s), __TRUE);
+	str++;
+	return (__FALSE);
+}
+
 void
+	change_t_quotes(t_lexer *lexer)
+{
+	char *str;
+
+	str = lexer->args;
+	while (*str)
+	{
+		if (*str == "\'")
+			__set_quote__(str, lexer);
+		else if (*str == "\"")
+			__set_quotes__(str, lexer);
+		else
+			str++;
+	}
+}
+
+void
+	set_t_quotes(t_mini *s)
+{
+	t_lexer	*tmp;
+
+	tmp = s->lexer;
+	while (NULL != tmp)
+	{
+		if (tmp->token == ARGS)
+			change_t_quotes(tmp);
+		tmp = tmp->next;
+	}
+}
+
+
+
+
+
+
+
+
+t_boolean
+	lexer_checker(t_mini *s)
+{
+	return (__SUCCESS);
+}
+
+
+
+
+
+
+
+
+
+t_boolean
 	lexer(t_mini *s)
 {
 	const char *save = s->prompt;
@@ -109,6 +208,10 @@ void
 		else
 			error = tokenizer(s);
 	}
+	set_t_quotes(s);
 	show_tokens(s);
+	if (__FAILURE == lexer_checker(s))
+		return (__FAILURE)
 	s->prompt = (char *)save;
+	return (__SUCCESS);
 }

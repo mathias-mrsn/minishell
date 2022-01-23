@@ -35,7 +35,8 @@ typedef enum e_quotes
 	SINGLE_QUOTES,
 	DOUBLE_QUOTES,
 	MIX_QUOTES,
-	UNSET
+	UNSET,
+	ERROR
 }			t_quotes;
 
 typedef struct s_lexer
