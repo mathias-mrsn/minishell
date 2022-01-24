@@ -109,31 +109,31 @@ void
 
 
 t_boolean
-	__set_quote__(char *str, t_mini *s)
+	__set_quote__(char *str, t_lexer *lexer)
 {
 	if (lexer->quotes == SINGLE_QUOTES || lexer->quotes == DOUBLE_QUOTES)
-		lexer->quotes == MIX_QUOTES;
+		lexer->quotes = MIX_QUOTES;
 	else
-		lexer->quotes == SINGLE_QUOTES;
-	while (*str != "\'" && *str != '\0')
+		lexer->quotes = SINGLE_QUOTES;
+	while (*str != '\'' && *str != '\0')
 		str++;
 	if (!(*str))
-		return (__quotes_error__(s), __TRUE);
+		return (__TRUE);
 	str++;
 	return (__FALSE);
 }
 
 t_boolean
-	__set_quotes__(char *str, t_mini *s)
+	__set_quotes__(char *str, t_lexer *lexer)
 {
 	if (lexer->quotes == SINGLE_QUOTES || lexer->quotes == SINGLE_QUOTES)
-		lexer->quotes == MIX_QUOTES;
+		lexer->quotes = MIX_QUOTES;
 	else
-		lexer->quotes == DOUBLE_QUOTES;
-	while (*str != "\"" && *str != '\0')
+		lexer->quotes = DOUBLE_QUOTES;
+	while (*str != '\"' && *str != '\0')
 		str++;
 	if (!(*str))
-		return (__quotes_error__(s), __TRUE);
+		return (__TRUE);
 	str++;
 	return (__FALSE);
 }
@@ -143,12 +143,12 @@ void
 {
 	char *str;
 
-	str = lexer->args;
+	str = lexer->argument;
 	while (*str)
 	{
-		if (*str == "\'")
+		if (*str == '\'')
 			__set_quote__(str, lexer);
-		else if (*str == "\"")
+		else if (*str == '\"')
 			__set_quotes__(str, lexer);
 		else
 			str++;
@@ -179,6 +179,14 @@ void
 t_boolean
 	lexer_checker(t_mini *s)
 {
+	t_lexer *tmp;
+
+	tmp = s->lexer;
+	while (tmp)
+	{
+		// if (!__redix_mixed__(tmp))
+			return (__FAILURE);
+	}
 	return (__SUCCESS);
 }
 
@@ -198,11 +206,11 @@ t_boolean
 
 	error = __SUCCESS;
 	if (NULL == s->prompt)
-		return ;
+		return (__SUCCESS);
 	while ('\0' != *s->prompt)
 	{
 		if (error == __FAILURE)
-			return ; //voir cette sortie
+			return (__FAILURE); //voir cette sortie
 		if (__TRUE == __isempty(*s->prompt))
 			skip_white_space(s);
 		else
@@ -211,7 +219,7 @@ t_boolean
 	set_t_quotes(s);
 	show_tokens(s);
 	if (__FAILURE == lexer_checker(s))
-		return (__FAILURE)
+		return (__FAILURE);
 	s->prompt = (char *)save;
 	return (__SUCCESS);
 }

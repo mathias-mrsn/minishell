@@ -29,7 +29,7 @@ void			print_prompt(t_mini *s);
 **	LEXER
 */
 
-void			lexer(t_mini *s);
+t_boolean			lexer(t_mini *s);
 
 /*
 **	LIST TOOLS
