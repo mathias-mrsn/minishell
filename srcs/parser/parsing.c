@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/25 17:15:31 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/01/25 21:53:39 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,13 @@
 // }
 
 void
-	cmd_parsing(t_command *cmd, t_lexer *lexer)
+	cmd_parsing(t_command *cmd, t_lexer **lexer)
 {
-	// if (cmd->command == NULL)
-	// {
-	// 	cmd->command = __strdup(lexer->argument);
-	// 	lexer = lexer->next;
-	// }
-	// else
-	__strs_add_front(&cmd->args, __strdup(lexer->argument));
-	printf("%s\n", (cmd->args)[0]);
+	if (cmd->command == NULL)
+		cmd->command = __strdup((*lexer)->argument);
+	else
+		__strs_add_front(&cmd->args, __strdup((*lexer)->argument));
+	(*lexer) = (*lexer)->next;
 }
 
 void
@@ -41,10 +38,13 @@ void
 
 	// if (tmp->token == DR_LEFT)
 	// 	heredoc(cmd, tmp, s);
-	if (tmp->token == ARGS)
-		cmd_parsing(s->cmd, s->lexer);
-	
-	
+	while (tmp)
+	{
+		if (tmp->token == ARGS)
+			cmd_parsing(s->cmd, &tmp);
+		else
+			tmp = tmp->next;
+	}
 }
 
 t_boolean

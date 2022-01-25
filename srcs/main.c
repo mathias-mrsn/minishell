@@ -26,6 +26,7 @@ void
 {
 	(void)s;
 	s->lexer = NULL;
+	s->cmd = NULL;
 }
 
 int
