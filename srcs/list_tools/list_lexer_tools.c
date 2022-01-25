@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_tools.c                                       :+:      :+:    :+:   */
+/*   list_lexer_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 17:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/22 17:00:49 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:55:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ static t_lexer
 	t_lexer *lexer;
 
 	lexer = NULL;
-	lexer = (t_lexer *)__malloc(sizeof(t_lexer), 1);
+	lexer = (t_lexer *)__malloc(sizeof(t_lexer), LEXER_STOCKAGE);
 	if (NULL == lexer)
 		return (__malloc_error__("t_lexer"), NULL);
+	__bzero(lexer, sizeof(t_command));
 	lexer->prev = prev;
 	lexer->next = next;
+	lexer->readed = __FALSE;
 	lexer->quotes = quotes;
 	lexer->token = token;
 	return (lexer);

@@ -22,10 +22,8 @@ typedef enum e_token
 	PIP = '|',
 	R_LEFT = '<',
 	R_RIGHT = '>',
-	S_QUOTE = '\'',
-	D_QUOTES = '\"',
-	DR_LEFT = '.',
-	DR_RIGHT = ',',
+	DR_LEFT,
+	DR_RIGHT,
 	ARGS,
 	NONE
 }			t_token;
@@ -44,20 +42,35 @@ typedef struct s_lexer
 	t_quotes		quotes;
 	t_token			token;
 	char			*argument;
+	t_boolean		readed;
 	struct s_lexer 	*prev;
 	struct s_lexer 	*next;
 }				t_lexer;
 
+typedef struct s_command
+{
+	char 			*command;
+	char			**args;
+	int				fd_in;
+	int				fd_out;
+	int				heredoc;
+	int				nbr_cmd;
+	pid_t			child;
+	t_boolean		builtin;
+	struct s_command	*next;
+	struct s_command	*prev;
+	
+}				t_command;
+
 typedef struct s_mini
 {
-	t_lexer	*lexer; //Commandes separes par ';'
-	char	**env;
-	char	*path;
-	char	*prompt;
-	uint8_t	exit_status;
-	uint64_t shell_level;
-	uint64_t	nbr_cmd;
-
+	t_lexer			*lexer; //Commandes separes par ';'
+	t_command		*cmd;
+	char			**env;
+	char			*path;
+	char			*prompt;
+	uint8_t			exit_status;
+	uint64_t 		shell_level;
 }				t_mini;
 
 #endif

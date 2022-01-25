@@ -2,6 +2,12 @@
 # define MINISHELL_F_H
 
 /*
+**	ENV
+*/
+
+uint8_t			get_env(t_mini *s, char **env);
+
+/*
 **	TRIM_QUOTES
 */
 
@@ -32,12 +38,26 @@ void			print_prompt(t_mini *s);
 t_boolean			lexer(t_mini *s);
 
 /*
+**	TRIMER
+*/
+
+t_boolean			trimer(t_mini *s);
+
+/*
+**	PARSER
+*/
+
+t_boolean			parsing(t_mini *s);
+
+/*
 **	LIST TOOLS
 */
 
-t_boolean		add_token_back(t_lexer **head, t_quotes quotes, t_token token);
-t_boolean		add_token_front(t_lexer **head, t_quotes quotes, t_token token);
-t_lexer			*find_last_elem(t_lexer **head);
+t_boolean			add_token_back(t_lexer **head, t_quotes quotes, t_token token);
+t_boolean			add_token_front(t_lexer **head, t_quotes quotes, t_token token);
+t_lexer				*find_last_elem(t_lexer **head);
+t_command			*add_command_front(t_command **head);
+t_command			*add_command_back(t_command **head);
 
 /*
 **	ERRORS

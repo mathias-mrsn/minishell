@@ -179,14 +179,15 @@ void
 t_boolean
 	lexer_checker(t_mini *s)
 {
-	t_lexer *tmp;
+	// t_lexer *tmp;
 
-	tmp = s->lexer;
-	while (tmp)
-	{
-		// if (!__redix_mixed__(tmp))
-			return (__FAILURE);
-	}
+	// tmp = s->lexer;
+	// while (tmp)
+	// {
+	// 	if (!__redix_mixed__(tmp))
+	// 		return (__FAILURE);
+	// }
+	(void)s;
 	return (__SUCCESS);
 }
 

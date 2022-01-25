@@ -8,12 +8,15 @@
 # define INPUT 5
 # define PIPE 6
 
-# define EOEV "\"\'; $" // END OF ENVIRONMENT VARIABLE
-# define ET_CHARSET	"|;" // EXTRA TOKEN CHARSET
 # define PROGRAM_NAME "minishell"
-# define CMD_CHARSET "abcdefghijklmnopqrstuvwxyz.ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # define OPTION_CHARSET "-"
-# define TOKEN_CS "<>| "
+# define TOKEN_CS "|>< "
 
+/*
+**	MALLOC
+*/
+
+# define LEXER_STOCKAGE	3
+# define COMMAND_STOCKAGE 4
 
 #endif
