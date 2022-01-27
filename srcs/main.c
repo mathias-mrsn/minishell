@@ -46,7 +46,7 @@ int
 		print_prompt(mini);
 		lexer(mini);
 		// trimer(mini);
-		// parsing(mini);
+		parsing(mini);
 		print_cmd();
 		// __clean(3);
 	}

@@ -51,16 +51,16 @@ typedef struct s_command
 {
 	char 			*command;
 	char			**args;
-	int				fd_in;
-	int				fd_out;
-	int				heredoc;
+	t_token			type;
+	int				tube[2];
+	int 			infile;
+	int				outfile;
+	char			*limiter;
 	int				nbr_cmd;
 	pid_t			child;
 	t_boolean		builtin;
-	t_list			*redir;
-	struct s_command	*next; //Voir si necessaire
+	struct s_command	*next;
 	struct s_command	*prev;
-	
 }				t_command;
 
 typedef struct s_mini

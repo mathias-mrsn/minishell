@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/26 10:27:57 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:25:09 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,21 @@ void
 	if (cmd->command == NULL)
 		cmd->command = __strdup((*lexer)->argument);
 	else
-		__strs_add_front(&cmd->args, __strdup((*lexer)->argument));
+		__strs_add_back(&cmd->args, __strdup((*lexer)->argument)); //fix add front
 	(*lexer) = (*lexer)->next;
 }
-
-// void
-// 	set_simple_right(t_command *cmd, t_lexer **lexer)
-// {
-	
-// }
 
 void
 	set_simple_right(t_command *cmd, t_lexer **lexer)
 {
-	int *fd;
-	t_lexer *tmp;
+	int 		fd;
+	t_lexer 	*tmp;
 
 	tmp = (*lexer);
-	fd = malloc(4);
-	if (NULL == fd)
+	fd = open(tmp->next->argument, O_CREAT, O_TRUNC);
+	if (-1 == fd)
 		return ;
-	(*fd) = open(tmp->next->argument, O_CREAT, O_TRUNC);
-	if (-1 == (*fd))
-		return ;
-	__lstadd_back(&cmd->redir, __lstnew(fd)); 
+	cmd->outfile = fd;
 }
 
 void
@@ -73,6 +64,7 @@ void
 		manage_right_redir(cmd, lexer);
 	// else if (tmp->token == R_LEFT || tmp->token == DR_LEFT)
 	// 	manage_left_redir();
+	(*lexer) = (*lexer)->next->next;
 }
 
 void
@@ -85,13 +77,43 @@ void
 
 	while (tmp)
 	{
-		// if (tmp->token == ARGS)
-		// 	cmd_parsing(s->cmd, &tmp);
+		if (tmp->token == ARGS)
+			cmd_parsing(s->cmd, &tmp);
 		// if (tmp->token == R_RIGHT || tmp->token == R_RIGHT)
-			// redir_parsing(s->cmd, &tmp);
-		// else
+		// 	redir_parsing(s->cmd, &tmp);
+		// if (tmp->token == PIP)
+		// 	s->cmd = add_command_front(&s->cmd);
+		else
 			tmp = tmp->next;
 	}
+}
+
+t_boolean
+	show_cmd(void)
+{
+	t_command *cmd;
+	int i;
+
+	cmd = s()->cmd;
+
+	while(cmd)
+	{
+		i = 0;
+		if (cmd->command)
+			printf("cmd = %s\n", cmd->command);
+		if (cmd->args)
+		{
+			while(cmd->args[i])
+			{
+				printf("%s - ", cmd->args[i]);
+				i++;
+			}
+		}
+		printf("infile = %d\n", cmd->infile);
+		printf("outfile = %d\n", cmd->outfile);
+		cmd = cmd->next;
+	}
+	return (__SUCCESS);
 }
 
 t_boolean
@@ -99,7 +121,8 @@ t_boolean
 {
 	if (NULL == s->lexer)
 		return (__SUCCESS);
-	cmd_parsing_hub(s);	
+	cmd_parsing_hub(s);
+	show_cmd();	
 	return (__SUCCESS);
 }
 
