@@ -57,7 +57,8 @@ typedef struct s_command
 	int				nbr_cmd;
 	pid_t			child;
 	t_boolean		builtin;
-	struct s_command	*next;
+	t_list			*redir;
+	struct s_command	*next; //Voir si necessaire
 	struct s_command	*prev;
 	
 }				t_command;
@@ -74,3 +75,14 @@ typedef struct s_mini
 }				t_mini;
 
 #endif
+
+/*********************** ERRORS CASES
+ * > ""
+ * > <
+ * < >
+ * >> >
+ * > >>
+ * > >
+ * > empty
+ * 
+ */

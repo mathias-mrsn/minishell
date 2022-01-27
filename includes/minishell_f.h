@@ -36,6 +36,15 @@ void			print_prompt(t_mini *s);
 */
 
 t_boolean			lexer(t_mini *s);
+void				set_t_quotes(t_mini *s);
+t_boolean			lexer_checker(t_mini *s);
+void				__skip_white_space__(t_mini *s);
+void				__add_token_pip__(t_mini *s);
+void				__add_token_r_right__(t_mini *s);
+void				__add_token_r_left__(t_mini *s);
+void				__add_token_arg__(t_mini *s);
+
+
 
 /*
 **	TRIMER
