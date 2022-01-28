@@ -45,9 +45,9 @@ int
 		__reset__(mini);
 		print_prompt(mini);
 		lexer(mini);
-		// trimer(mini);
+		trimer(mini);
 		parsing(mini);
-		print_cmd();
+		// print_cmd();
 		// __clean(3);
 	}
 	while(1);

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:19:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/26 11:19:49 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/01/28 19:28:38 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,34 @@ void
 }
 
 void
+	__skip_quote__(t_mini *s, uint64_t *size)
+{
+	(*size)++;
+	s->prompt++;
+	while(*s->prompt && *s->prompt != SINGLE_QUOTES)
+	{
+		(*size)++;
+		s->prompt++;
+	}
+	(*size)++;
+	s->prompt++;
+}
+
+void
+	__skip_quotes__(t_mini *s, uint64_t *size)
+{
+	(*size)++;
+	s->prompt++;
+	while(*s->prompt && *s->prompt != DOUBLE_QUOTES)
+	{
+		(*size)++;
+		s->prompt++;
+	}
+	(*size)++;
+	s->prompt++;
+}
+
+void
 	__add_token_arg__(t_mini *s)
 {
 	uint64_t	size;
@@ -67,8 +95,16 @@ void
 	add_token_back(&s->lexer, UNSET, ARGS);
 	while (*s->prompt && __FALSE == __is_charset(*s->prompt, TOKEN_CS))
 	{
-		size++;
-		s->prompt++;
+		printf("%c\n", *s->prompt);
+		if (*s->prompt == SINGLE_QUOTES)
+			__skip_quote__(s, &size);
+		else if (*s->prompt == DOUBLE_QUOTES)
+			__skip_quotes__(s, &size);
+		else
+		{
+			size++;
+			s->prompt++;
+		}
 	}
 	find_last_elem(&s->lexer)->argument = __strldup(save, size);
 }

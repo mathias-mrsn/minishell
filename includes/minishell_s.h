@@ -25,16 +25,17 @@ typedef enum e_token
 	DR_LEFT,
 	DR_RIGHT,
 	ARGS,
+	ERROR,
 	NONE
 }			t_token;
 
 typedef enum e_quotes
 {
-	SINGLE_QUOTES,
-	DOUBLE_QUOTES,
+	SINGLE_QUOTES = '\'',
+	DOUBLE_QUOTES = '\"',
+	DOLLAR = '$',
 	MIX_QUOTES,
 	UNSET,
-	ERROR
 }			t_quotes;
 
 typedef struct s_lexer
@@ -51,7 +52,7 @@ typedef struct s_command
 {
 	char 			*command;
 	char			**args;
-	t_token			type;
+	t_boolean		pip;
 	int				tube[2];
 	int 			infile;
 	int				outfile;

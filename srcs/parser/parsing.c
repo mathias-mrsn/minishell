@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/28 11:12:26 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/01/28 18:13:51 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void
 	t_lexer 	*tmp;
 
 	tmp = (*lexer);
-	fd = open(tmp->next->argument, O_CREAT | O_TRUNC, 0644);
+	fd = open(tmp->next->argument, O_CREAT | O_TRUNC | O_RDONLY, 0644);
 	if (-1 == fd)
 		return ;
 	cmd->outfile = fd;
