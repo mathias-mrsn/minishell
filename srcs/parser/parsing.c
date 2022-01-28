@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/27 18:25:09 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:12:26 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ void
 	cmd_parsing(t_command *cmd, t_lexer **lexer)
 {
 	if (cmd->command == NULL)
+	{
 		cmd->command = __strdup((*lexer)->argument);
+		__strs_add_back(&cmd->args, __strdup((*lexer)->argument));
+	}
 	else
-		__strs_add_back(&cmd->args, __strdup((*lexer)->argument)); //fix add front
+		__strs_add_back(&cmd->args, __strdup((*lexer)->argument));
 	(*lexer) = (*lexer)->next;
 }
 
@@ -29,7 +32,7 @@ void
 	t_lexer 	*tmp;
 
 	tmp = (*lexer);
-	fd = open(tmp->next->argument, O_CREAT, O_TRUNC);
+	fd = open(tmp->next->argument, O_CREAT | O_TRUNC, 0644);
 	if (-1 == fd)
 		return ;
 	cmd->outfile = fd;
@@ -79,8 +82,8 @@ void
 	{
 		if (tmp->token == ARGS)
 			cmd_parsing(s->cmd, &tmp);
-		// if (tmp->token == R_RIGHT || tmp->token == R_RIGHT)
-		// 	redir_parsing(s->cmd, &tmp);
+		else if (tmp->token == R_RIGHT || tmp->token == R_RIGHT)
+			redir_parsing(s->cmd, &tmp);
 		// if (tmp->token == PIP)
 		// 	s->cmd = add_command_front(&s->cmd);
 		else
@@ -116,13 +119,40 @@ t_boolean
 	return (__SUCCESS);
 }
 
+void
+	show_token(void)
+{
+	t_lexer *tmp = s()->lexer;
+
+	printf("TOKEN :\n\n");
+	while(tmp)
+	{
+		printf(" -> ");
+		if (tmp->token == ARGS)
+			printf("ARGS");
+		else if (tmp->token == DR_LEFT)
+			printf("DR_LEFT");
+		else if (tmp->token == DR_RIGHT)
+			printf("DR_RIGHT");
+		else if (tmp->token == R_LEFT)
+			printf("R_LEFT");
+		else if (tmp->token == R_RIGHT)
+			printf("R_LEFT");
+		else if (tmp->token == PIP)
+			printf("PIP");
+		tmp = tmp->next;
+	}
+	printf("\n\n");
+}
+
 t_boolean
 	parsing(t_mini *s)
 {
 	if (NULL == s->lexer)
 		return (__SUCCESS);
+	show_token();
 	cmd_parsing_hub(s);
-	show_cmd();	
+	show_cmd();
 	return (__SUCCESS);
 }
 
