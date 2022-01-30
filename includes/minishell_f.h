@@ -8,17 +8,6 @@
 uint8_t			get_env(t_mini *s, char **env);
 
 /*
-**	TRIM_QUOTES
-*/
-
-char			*__catch_variable_name__(char *str);
-uint64_t		__variable_name_length__(char *str);
-uint8_t			__quotes_are_right__(t_mini *s);
-uint8_t			get_env(t_mini *s, char **env);
-char			*__get_env_value__(t_mini *s, char *tofind);
-void			delete_quotes(t_lexer *lexer, uint64_t *idx, t_quotes quote);
-
-/*
 **	MEMORY
 */
 
@@ -50,6 +39,8 @@ void				__add_token_arg__(t_mini *s);
 */
 
 t_boolean			trimer(t_mini *s);
+char				*__get_exit_code__(t_mini *s);
+char				*__get_env_var__(t_mini *s, char *name);
 
 /*
 **	PARSER

@@ -64,6 +64,12 @@ typedef struct s_command
 	struct s_command	*prev;
 }				t_command;
 
+typedef struct s_dict
+{
+	t_token 		array[3];
+	int				error;	
+}				t_dict;
+
 typedef struct s_mini
 {
 	t_lexer			*lexer; //Commandes separes par ';'

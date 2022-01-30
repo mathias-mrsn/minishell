@@ -1,62 +1,36 @@
 #include "minishell.h"
 
-t_boolean
-	dollar_trimer(t_mini *s, char **str, uint64_t *i)
+static void
+	replace_dollars(t_mini *s, t_lexer *lexer, uint64_t *idx)
 {
+	uint64_t	end;
+	char 		*begin;
+	char 		*var;
+	char 		*var_value;
+	char 		*final;
+
 	(void)s;
-	(void)str;
-	(void)i;
-	return (__SUCCESS);
-}
-
-t_boolean
-	checker_args(t_mini *s, t_lexer *lexer)
-{
-	char *str;
-	uint64_t	idx;
-
-	idx = 0;
-	if (NULL == lexer->argument)
-		return (__SUCCESS);
-	str = lexer->argument;
-	while (str[idx])
+	begin = __strldup(lexer->argument, (*idx));
+	end = (*idx) + 1;
+	if (lexer->argument[(*idx) + 1] == DOLLAR)
 	{
-		if ('$' == str[idx])
-			dollar_trimer(s, &str, &idx);
-		idx++;
+		end += 1;
+		var_value = __get_exit_code__(s);
 	}
-	return (__TRUE);
+	else
+	{
+		while(__isalnum(lexer->argument[end]) || lexer->argument[end] == '_')
+			end++;
+		var = __strldup(lexer->argument + (*idx) + 1, end - (*idx) - 1);
+		var_value = __get_env_var__(s, var);
+	}
+	final = __strjoin(begin, __strjoin(var_value, __strdup(lexer->argument + end)));
+	lexer->argument = final;
+	(*idx) += __strlen(var_value);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// void
-// 	replace_dollars(t_mini *s, t_lexer *lexer, uint64_t *idx)
-// {
-
-// }
-
-void
-	delete_quotes(t_lexer *lexer, uint64_t *idx, t_quotes quote)
+static void
+	delete_quotes(t_mini *s, t_lexer *lexer, uint64_t *idx, t_quotes quote)
 {
 	uint64_t	end;
 	char 		*begin;
@@ -65,9 +39,9 @@ void
 	end = (*idx) + 1;
 	while(lexer->argument[end] && lexer->argument[end] != (char)quote)
 	{
-		// if (lexer->argument[end] == DOLLAR && quote == DOUBLE_QUOTES)
-		// 	replace_dollars();
-		// else
+		if (lexer->argument[end] == DOLLAR && quote == DOUBLE_QUOTES)
+			replace_dollars(s, lexer, &end);
+		else
 			end++;
 	}
 	begin = __strjoin(__strldup(lexer->argument, (*idx)), __strldup(lexer->argument + (*idx) + 1, end - (*idx) - 1));
@@ -76,67 +50,24 @@ void
 	(*idx) = end - 1;
 }
 
-void
-	single_quotes_dollars(t_mini *s, t_lexer *lexer)
+static void
+	trimer_hub(t_mini *s, t_lexer *lexer)
 {
 	uint64_t	idx;
 
-	(void)s;
 	idx = 0;
 	while(lexer->argument[idx])
 	{
 		if (lexer->argument[idx] == SINGLE_QUOTES)
-		{
-			// printf("idx before = %llu\n", idx);
-			delete_quotes(lexer, &idx, SINGLE_QUOTES);
-			// printf(" -> %c ==> %s\n", str[idx], lexer->argument);
-		}
-		// if (lexer->argument == DOLLAR)
-		// {
-
-		// }
+			delete_quotes(s, lexer, &idx, SINGLE_QUOTES);
+		else if (lexer->argument[idx] == DOUBLE_QUOTES)
+			delete_quotes(s, lexer, &idx, DOUBLE_QUOTES);
+		else if (lexer->argument[idx] == DOLLAR)
+			replace_dollars(s, lexer, &idx);
 		else
 			idx++;
 	}
 }
-
-void
-	double_quotes_dollars(t_mini *s, t_lexer *lexer)
-{
-	uint64_t	idx;
-
-	(void)s;
-	idx = 0;
-	while(lexer->argument[idx])
-	{
-		if (lexer->argument[idx] == DOUBLE_QUOTES)
-		{
-			// printf("idx before = %llu\n", idx);
-			delete_quotes(lexer, &idx, DOUBLE_QUOTES);
-			// printf(" -> %c ==> %s\n", str[idx], lexer->argument);
-		}
-		// if (lexer->argument == DOLLAR)
-		// {
-
-		// }
-		else
-			idx++;
-	}
-}
-
-void
-	replace_dollars(t_mini *s, t_lexer *lexer)
-{
-	if (lexer->quotes == SINGLE_QUOTES)
-		single_quotes_dollars(s, lexer);
-	else if (lexer->quotes == DOUBLE_QUOTES)
-		double_quotes_dollars(s, lexer);
-	// else if (lexer->quotes == BOTH_QUOTES)
-	// 	both_quotes_dollars(s, lexer);
-	// else if (lexer->quotes == UNSET)
-	// 	unset_quotes_dollars(s, lexer);
-}
-
 
 t_boolean
 	trimer(t_mini *s)
@@ -148,7 +79,7 @@ t_boolean
 	{
 		if (lexer->token == ARGS)
 		{
-			replace_dollars(s, lexer);
+			trimer_hub(s, lexer);
 		}
 		lexer = lexer->next;
 	}

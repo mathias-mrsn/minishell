@@ -11,5 +11,6 @@
 #include "minishell_d.h"
 #include "minishell_f.h"
 
+unsigned int	g_exit_code;
 
 #endif
