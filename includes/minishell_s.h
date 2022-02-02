@@ -26,6 +26,7 @@ typedef enum e_token
 	DR_RIGHT,
 	ARGS,
 	ERROR,
+	NUL,
 	NONE
 }			t_token;
 
@@ -77,6 +78,7 @@ typedef struct s_mini
 	char			**env;
 	char			*path;
 	char			*prompt;
+	t_boolean		error;
 	uint8_t			exit_status;
 	uint64_t 		shell_level;
 }				t_mini;

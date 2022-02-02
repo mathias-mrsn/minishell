@@ -27,6 +27,7 @@ void
 	(void)s;
 	s->lexer = NULL;
 	s->cmd = NULL;
+	s->error = 0;
 }
 
 int
@@ -45,8 +46,11 @@ int
 		__reset__(mini);
 		print_prompt(mini);
 		lexer(mini);
-		trimer(mini);
-		parsing(mini);
+		if (__FALSE == mini->error)
+		{
+			trimer(mini);
+			parsing(mini);
+		}
 		// print_cmd();
 		// __clean(3);
 	}

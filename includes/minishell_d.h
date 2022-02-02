@@ -13,6 +13,15 @@
 # define TOKEN_CS "|>< "
 
 /*
+**	DICT	
+*/
+
+# define DICT_SIZE 23
+# define DICT_LEFT 0
+# define DICT_MIDDLE 1
+# define DICT_RIGHT 2
+
+/*
 **	MALLOC
 */
 

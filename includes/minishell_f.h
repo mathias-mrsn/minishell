@@ -63,5 +63,7 @@ t_command			*add_command_back(t_command **head);
 */
 
 void			__malloc_error__(char *type);
+void			__token_syntax_error__(t_mini *s, int error_value);
+void			__unclosed_quote__(t_mini *s, int error_value);
 
 #endif
