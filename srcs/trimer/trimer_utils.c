@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 17:31:36 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/30 17:32:37 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:01:55 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ char
 	*__get_exit_code__(t_mini *s)
 {
 	(void)s;
-	return (__itoa(g_exit_code));
+	return (__itoa(s->g_exit_code));
 }

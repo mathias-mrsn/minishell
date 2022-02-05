@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 14:36:01 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/05 17:01:10 by mamaurai         ###   ########.fr       */
+/*   Created: 2022/02/05 17:56:25 by mamaurai          #+#    #+#             */
+/*   Updated: 2022/02/05 17:56:41 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_boolean
-	exec(t_mini *s)
+void
+	cmd_parsing(t_command *cmd, t_lexer **lexer)
 {
-	t_command *cmd;
-
-	cmd = s->cmd;
-	while(cmd)
+	if (cmd->command == NULL)
 	{
-		if (__is_builtins__(cmd))
-			exec_builtins(s, cmd);
-		cmd = cmd->next;
+		cmd->command = __strdup((*lexer)->argument);
+		__strs_add_back(&cmd->args, __strdup((*lexer)->argument));
 	}
-	return (__SUCCESS);
+	else
+		__strs_add_back(&cmd->args, __strdup((*lexer)->argument));
+	(*lexer) = (*lexer)->next;
 }

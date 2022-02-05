@@ -47,6 +47,9 @@ char				*__get_env_var__(t_mini *s, char *name);
 */
 
 t_boolean			parsing(t_mini *s);
+t_boolean			set_here_doc(t_mini *s, t_command *cmd, t_lexer **lexer);
+void				cmd_parsing(t_command *cmd, t_lexer **lexer);
+void				output_parsing(t_mini *s, t_command *cmd, t_lexer **lexer);
 
 /*
 **	LIST TOOLS
@@ -57,6 +60,7 @@ t_boolean			add_token_front(t_lexer **head, t_quotes quotes, t_token token);
 t_lexer				*find_last_elem(t_lexer **head);
 t_command			*add_command_front(t_command **head);
 t_command			*add_command_back(t_command **head);
+void				input_parsing(t_mini *s, t_command *cmd, t_lexer **lexer);
 
 /*
 **	ERRORS
@@ -80,7 +84,7 @@ t_boolean		exec_builtins(t_mini *s, t_command *cmd);
 */
 
 t_boolean		builtins_echo(t_mini *s, t_command *cmd);
-
+t_boolean		builtins_exit(t_mini *s, t_command *cmd);
 
 
 #endif
