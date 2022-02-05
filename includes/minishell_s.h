@@ -52,8 +52,9 @@ typedef struct s_lexer
 typedef struct s_command
 {
 	char 			*command;
+	char			*error;
 	char			**args;
-	t_boolean		pip;
+	t_token			type;
 	int				tube[2];
 	int 			infile;
 	int				outfile;
@@ -73,7 +74,7 @@ typedef struct s_dict
 
 typedef struct s_mini
 {
-	t_lexer			*lexer; //Commandes separes par ';'
+	t_lexer			*lexer;
 	t_command		*cmd;
 	char			**env;
 	char			*path;

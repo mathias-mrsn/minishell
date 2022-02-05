@@ -5,6 +5,7 @@
 #include "libft.h"
 #include <stdio.h>
 #include <stdint.h>
+#include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell_s.h"

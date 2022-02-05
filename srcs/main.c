@@ -50,9 +50,10 @@ int
 		{
 			trimer(mini);
 			parsing(mini);
+			exec(mini);
 		}
 		// print_cmd();
-		// __clean(3);
+		__clean_all();
 	}
 	while(1);
 	return (EXIT_SUCCESS);

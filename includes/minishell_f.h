@@ -65,5 +65,22 @@ t_command			*add_command_back(t_command **head);
 void			__malloc_error__(char *type);
 void			__token_syntax_error__(t_mini *s, int error_value);
 void			__unclosed_quote__(t_mini *s, int error_value);
+void			__file_dont_exist__(t_mini *s, char *str);
+
+/*
+**	EXEC
+*/
+
+t_boolean		exec(t_mini *s);
+int				__is_builtins__(t_command *cmd);
+t_boolean		exec_builtins(t_mini *s, t_command *cmd);
+
+/*
+**	BUILTINS
+*/
+
+t_boolean		builtins_echo(t_mini *s, t_command *cmd);
+
+
 
 #endif
