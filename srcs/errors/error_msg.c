@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/05 13:22:21 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/06 16:31:10 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,13 @@ void
 	__putstr(": No such file or directory", 2);
 	__putstr("'\n", 2);
 	s->error = __TRUE;
+}
+
+void
+	__error_wildcard__(t_mini *s)
+{
+	s->g_exit_code = 1;
+	s->error = __TRUE;
+	__putstr(PROGRAM_NAME, STDERR_FILENO);
+	__putstr(": wildcards used out of the current directory\n", STDERR_FILENO);
 }

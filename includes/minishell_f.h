@@ -52,6 +52,21 @@ void				cmd_parsing(t_command *cmd, t_lexer **lexer);
 void				output_parsing(t_mini *s, t_command *cmd, t_lexer **lexer);
 
 /*
+**	WILDCARD
+*/
+
+void				wildcard(t_mini *s, t_command *cmd, char *str);
+t_boolean			__is_hidden__(char *str);
+t_boolean			__file_match_with_wc__(char *file, const char **wc);
+void				__swap__(char **a, char **b);
+void				__sort_args__(char ***list);
+void				__add_to_cmd__(t_command *cmd, char **strs, char *add_front);
+
+
+
+
+
+/*
 **	LIST TOOLS
 */
 
@@ -70,6 +85,7 @@ void			__malloc_error__(char *type);
 void			__token_syntax_error__(t_mini *s, int error_value);
 void			__unclosed_quote__(t_mini *s, int error_value);
 void			__file_dont_exist__(t_mini *s, char *str);
+void			__error_wildcard__(t_mini *s);
 
 /*
 **	EXEC

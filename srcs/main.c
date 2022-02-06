@@ -47,11 +47,11 @@ int
 		print_prompt(mini);
 		lexer(mini);
 		if (__FALSE == mini->error)
-		{
 			trimer(mini);
+		if (__FALSE == mini->error)
 			parsing(mini);
+		if (__FALSE == mini->error)
 			exec(mini);
-		}
 		// print_cmd();
 		__clean_all();
 	}
