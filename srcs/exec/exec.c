@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:36:01 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/05 17:01:10 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/06 16:37:23 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_boolean
 	cmd = s->cmd;
 	while(cmd)
 	{
-		if (__is_builtins__(cmd))
+		if (cmd->command && __is_builtins__(cmd))
 			exec_builtins(s, cmd);
 		cmd = cmd->next;
 	}

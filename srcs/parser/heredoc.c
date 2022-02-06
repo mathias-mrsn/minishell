@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/06 12:02:07 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/06 16:35:13 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	heredoc(t_mini *s, t_command *cmd)
 	char 	*dollar_trimed;
 
 	(void)s;
-	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
 		perror("Error while creating Heredoc!");
 	while (1)

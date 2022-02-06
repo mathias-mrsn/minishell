@@ -6,23 +6,14 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:28:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/06 16:28:55 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/06 18:10:53 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_boolean
-	__is_hidden__(char *str)
-{
-	if (str[0] == '.')
-		return (__TRUE);
-	else
-		return (__FALSE);
-}
-
-t_boolean
-	__file_match_with_wc__(char *file, const char **wc)
+	__file_match_with_wc__(char *file, const char **wc, int start, int end)
 {
 	const size_t	wc_len = (const size_t)__strslen((char **)wc) - 1;
 	size_t			idx;
@@ -30,19 +21,18 @@ t_boolean
 
 	wc_idx = 0;
 	idx = 0;
-	if (NULL == wc)
-		return (__SUCCESS);
 	while (file[idx] && wc_idx <= wc_len)
 	{
+		if (start == 0 && wc_idx == 0 && __strncmp(file, wc[0], __strlen(wc[0])) != 0)
+			return (__FAILURE);
+		if (end == 0 && wc_idx == wc_len && __strncmp(file + __strlen(file) - __strlen(wc[wc_len]), wc[wc_len], __strlen(wc[wc_len])))
+			return (__FAILURE);
 		if (wc[wc_idx] && __strncmp(file + idx, wc[wc_idx], __strlen(wc[wc_idx])) == 0)
-		{
-			idx += __strlen(wc[wc_idx]);
-			wc_idx++;
-		}
+			idx += __strlen(wc[wc_idx++]);
 		else
 			idx++;
 	}
-	if (wc_idx == wc_len)
+	if (wc_idx == wc_len + 1)
 		return (__SUCCESS);
 	return (__FAILURE);
 }

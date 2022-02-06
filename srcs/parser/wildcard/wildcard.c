@@ -6,11 +6,33 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:26:23 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/06 16:28:19 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/06 18:10:37 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int
+	__get_start__(char *str)
+{
+	if (!str)
+		return (__ERROR);
+	if (str[0] == '*')
+		return (1);
+	else
+		return (0);
+}
+
+int
+	__get_end__(char *str)
+{
+	if (!str)
+		return (__ERROR);
+	if (str[__strlen(str) - 1] == '*')
+		return (1);
+	else
+		return (0);
+}
 
 static t_boolean
 	__open_dir__(DIR **dir)
@@ -47,12 +69,11 @@ static void
 	idx = 0;
 	while(list[idx])
 	{
-		if (str[0] == '.' && list[idx][0] == '.' && __file_match_with_wc__(list[idx], wc_splited))
+		if (str[0] == '.' && list[idx][0] == '.' && (!__file_match_with_wc__(list[idx], wc_splited, __get_start__(str), __get_end__(str)) || wc_splited == NULL))
 			__strs_add_back(final_list, list[idx]);
-		if (list[idx][0] != '.' && str[0] != '.' && __file_match_with_wc__(list[idx], wc_splited))
+		if (list[idx][0] != '.' && str[0] != '.' && (!__file_match_with_wc__(list[idx], wc_splited, __get_start__(str), __get_end__(str)) || wc_splited == NULL))
 			__strs_add_back(final_list, list[idx]);
 		idx++;
-		// if (__file_match_with_wc__(list[idx], wc_splited)
 	}	
 }
 
