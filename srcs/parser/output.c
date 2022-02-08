@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:55:43 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/05 17:57:06 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:59:49 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_boolean
 {
 	int 		fd;
 
-	fd = open((*lexer)->next->argument, O_CREAT | O_TRUNC | O_RDONLY, 0644);
+	fd = open((*lexer)->next->argument, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (-1 == fd)
 	{
 		strerror(errno);
@@ -35,7 +35,7 @@ static t_boolean
 {
 	int 		fd;
 
-	fd = open((*lexer)->next->argument, O_CREAT | O_APPEND | O_RDONLY, 0644);
+	fd = open((*lexer)->next->argument, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (-1 == fd)
 	{
 		strerror(errno);

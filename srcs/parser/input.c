@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:54:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/05 17:55:21 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/08 16:15:01 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_boolean
 	
 	if (__FALSE == __file_exist((*lexer)->next->argument))
 		return (__file_dont_exist__(s, (*lexer)->next->argument), __FAILURE);
-	fd = open((*lexer)->next->argument, O_RDONLY | O_WRONLY);
+	fd = open((*lexer)->next->argument, O_RDONLY);
 	if (-1 == fd)
 		return (__FAILURE);
 	if (cmd->infile != 0)

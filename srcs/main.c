@@ -103,28 +103,23 @@ int	is_builtin(t_command *cmd)
 
 void	switch_io(t_command *cmd)
 {	
-	// if (cmd->type == PIP)
-    // {
-    //     dup2(cmd->tube[1], 1);
-    //     close(cmd->tube[0]);
-    // }
-    // if (cmd->prev && cmd->prev->type == PIP)
-    // {
-    //     dup2(cmd->prev->tube[0], 0);
-    //     close(cmd->prev->tube[1]);
-    // }
+	if (cmd->type == PIP)
+    {
+		write(2, "here\n", 5);
+        dup2(cmd->tube[1], 1);
+        close(cmd->tube[0]);
+    }
+    if (cmd->prev && cmd->prev->type == PIP)
+    {
+        dup2(cmd->prev->tube[0], 0);
+        close(cmd->prev->tube[1]);
+    }
 	if (cmd->outfile)
 	{
-		write(2, "here\n", 5);
 		dup2(cmd->outfile, 1);
 	}
 	if (cmd->infile)
 		dup2(cmd->infile, 0);
-	if (cmd->limiter)
-	{
-		create_heredoc(cmd);
-		dup2(cmd->infile, 0);	
-	}
 }
 
 char	*__cmd(char **cmd_paths, char *args, t_command *cmd)
@@ -216,8 +211,8 @@ void	close_open_files(void)
 			close(cmd->infile);
 		if (cmd->outfile)
 			close(cmd->outfile);
-		if (cmd->limiter)
-			unlink(".heredoc_tmp");
+		// if (cmd->limiter)
+		unlink(".heredoc_tmp");
 		cmd = cmd->next;
 	}
 }
@@ -229,8 +224,8 @@ void	exec_cmds(void)
 	cmd = s()->cmd;
 	while (cmd)
 	{
-		// if (!check_pipe(cmd))
-		// 	return ;
+		if (!check_pipe(cmd))
+			return ;
 		if (!is_builtin(cmd))
 		{
 			cmd->child = fork();

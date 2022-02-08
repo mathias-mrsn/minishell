@@ -22,6 +22,8 @@ typedef enum e_token
 	PIP = '|',
 	R_LEFT = '<',
 	R_RIGHT = '>',
+	AND,
+	OR,
 	DR_LEFT,
 	DR_RIGHT,
 	ARGS,

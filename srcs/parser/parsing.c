@@ -6,11 +6,23 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/05 17:57:35 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/08 16:38:06 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+t_boolean
+	__next_is_pip__(t_lexer *tmp)
+{
+	while(tmp)
+	{
+		if (tmp->token == PIP)
+			return (__TRUE);
+		tmp = tmp->next;
+	}
+	return (__FALSE);
+}
 
 void
 	cmd_parsing_hub(t_mini *s)
@@ -23,6 +35,8 @@ void
 
 	while (tmp)
 	{
+		if (__next_is_pip__(tmp) == __TRUE)
+			cmd->type = PIP;
 		if (tmp->token == ARGS)
 			cmd_parsing(cmd, &tmp);
 		else if (tmp->token == R_LEFT || tmp->token == DR_LEFT)
@@ -60,6 +74,8 @@ t_boolean
 				i++;
 			}
 		}
+		printf("\n\n");
+		printf("NEXT PIP = %d\n", ((cmd->type == PIP) ? 1 : 0));
 		printf("infile = %d\n", cmd->infile);
 		printf("outfile = %d\n", cmd->outfile);
 		cmd = cmd->next;
