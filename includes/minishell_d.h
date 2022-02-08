@@ -11,6 +11,7 @@
 # define PROGRAM_NAME "minishell"
 # define OPTION_CHARSET "-"
 # define TOKEN_CS "|>< "
+# define NBR_BUILDINS	7
 
 /*
 **	DICT	

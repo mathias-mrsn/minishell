@@ -76,7 +76,7 @@ int	is_builtin(t_command *cmd)
 	else if (!__strncmp("echo", cmd->command, 5))
 	{
 		switch_io(cmd);
-		exec_echo(cmd);
+		exec_echo(s(), cmd);
 	}
 	else if (!__strncmp("export", cmd->command, 7))
 	{
@@ -89,7 +89,7 @@ int	is_builtin(t_command *cmd)
 	}
 	else if (!__strncmp("exit", cmd->command, 5))
 	{
-		exec_exit(cmd);
+		exec_exit(s(),cmd);
 	}
 	else if (!__strncmp("env", cmd->command, 4))
 	{
@@ -100,6 +100,50 @@ int	is_builtin(t_command *cmd)
 		return (0);
 	return (1);
 }
+
+
+int
+ 	__is_builtins__(t_command *cmd)
+ {
+ 	char	*str;
+ 	int		idx;
+ 	const char	*commands[NBR_BUILDINS] = {"unset",
+ 		"exit", "env", "export", "cd", "pwd", "echo"};
+
+ 	idx = 0;
+ 	str = cmd->command;
+ 	while(idx < NBR_BUILDINS)
+ 	{
+ 		if (__strcmp(str, commands[idx]) == 0)
+ 			return (idx + 1);
+ 		idx++;
+ 	}
+ 	return (__FALSE);
+ }
+
+t_boolean
+ 	exec_builtins(t_mini *s, t_command *cmd)
+ {
+ 	static t_boolean	(*f[NBR_BUILDINS])() = {exec_unset, exec_exit, exec_env, exec_export,
+		exec_cd, exec_pwd, exec_echo};
+ 	const int		i = __is_builtins__(cmd);
+
+	if (i > 2)
+		switch_io(cmd);
+ 	f[i - 1](s, cmd);
+ 	return (__SUCCESS);
+ }
+
+
+
+
+
+
+
+
+
+
+
 
 void	switch_io(t_command *cmd)
 {	
@@ -131,8 +175,8 @@ char	*__cmd(char **cmd_paths, char *args, t_command *cmd)
 		return (args);
 	while (*cmd_paths)
 	{
-		tmp = __strjoin(*cmd_paths, "/");
-		guess = __strjoin(tmp, args);
+		tmp = __mstrjoin(*cmd_paths, "/", __DONT_STOCK_MEM);
+		guess = __mstrjoin(tmp, args, __DONT_STOCK_MEM);
 		free(tmp);
 		if (access(guess, 0) == 0)
 			return (guess);
@@ -159,7 +203,7 @@ void	exec(t_command *cmd)
 	switch_io(cmd);
 	i = 0;
 	paths = __paths(s()->env);
-	cmd_paths = __split(paths, ':');
+	cmd_paths = __msplit(paths, ':', __DONT_STOCK_MEM);
 	cmd->command = __cmd(cmd_paths, cmd->command, cmd);
 	while(cmd_paths[i])
 	{

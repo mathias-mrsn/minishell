@@ -103,9 +103,9 @@ t_boolean		builtins_exit(t_mini *s, t_command *cmd);
 
 
 void                exec_cd(t_command *cmd);
-void                exec_echo(t_command *cmd);
+t_boolean           exec_echo(t_mini *s, t_command *cmd);
 void                exec_env(void);
-void                exec_exit(t_command *cmd);
+t_boolean           exec_exit(t_mini *s, t_command *cmd);
 void                exec_export(t_command *cmd);
 void                exec_pwd(void);
 
