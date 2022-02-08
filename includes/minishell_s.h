@@ -72,10 +72,20 @@ typedef struct s_dict
 	int				error;	
 }				t_dict;
 
+typedef struct s_env
+{
+	char			*full;
+	char			*key;
+	char			*value;
+	int				in_env;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_mini
 {
 	t_lexer			*lexer;
 	t_command		*cmd;
+	t_env			**env_lst;
 	char			**env;
 	char			*path;
 	char			*prompt;

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:26:23 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/06 18:10:37 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:17:52 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ static char
 	__get_list__(&list, dir);
 	create_list(&final_list, list, str);
 	return (final_list);
-
-
 }
 
 void
