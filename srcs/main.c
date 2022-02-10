@@ -28,57 +28,9 @@ void
 	s->lexer = NULL;
 	s->cmd = NULL;
 	s->error = 0;
+	__clean(3);
+	__clean(4);
 }
-
-
-
-
-
-
-
-
-int
- 	__is_builtins__(t_command *cmd)
- {
- 	char	*str;
- 	int		idx;
- 	const char	*commands[NBR_BUILDINS] = {"unset",
- 		"exit", "env", "export", "cd", "pwd", "echo"};
-
- 	idx = 0;
- 	str = cmd->command;
- 	while(idx < NBR_BUILDINS)
- 	{
- 		if (__strcmp(str, commands[idx]) == 0)
- 			return (idx + 1);
- 		idx++;
- 	}
- 	return (__FALSE);
- }
-
-t_boolean
- 	exec_builtins(t_command *cmd)
- {
- 	static void	(*f[NBR_BUILDINS])() = {exec_unset, exec_exit, exec_env, exec_export,
-		exec_cd, exec_pwd, exec_echo};
- 	const int		i = __is_builtins__(cmd);
-
-	if (0 == i)
-		return (__FAILURE);
-	if (i > 2)
-		switch_io(cmd);
- 	f[i - 1](cmd);
- 	return (__SUCCESS);
- }
-
-
-
-
-
-
-
-
-
 
 
 void	switch_io(t_command *cmd)
@@ -218,6 +170,24 @@ void	exec_cmds(void)
 	close_open_files();
 }
 
+t_boolean
+	minishell(t_mini *s)
+{
+	while(1)
+	{
+		__reset__(s);
+		print_prompt(s);
+		lexer(s);
+		trimer(s);
+		parsing(s);
+		if (__FALSE == s->error)
+		{
+			exec_cmds();
+			waitpid(-1, NULL, 0);
+		}
+		__clean_all();
+	}
+}
 
 int
 	main(int ac, char **av, char **env)
@@ -228,23 +198,10 @@ int
 	t_mini	*mini;
 
 	mini = s();
-	if (__FAILURE == get_env(mini, env))
+	if (1 != ac)
+		return (__puterr(TOO_MANY_ARG_ERR), EXIT_FAILURE);
+	else if (__FAILURE == get_env(mini, env))
 		return (EXIT_FAILURE); //free t_mini
-	while(1)
-	{
-		__reset__(mini);
-		print_prompt(mini);
-		lexer(mini);
-		trimer(mini);
-		parsing(mini);
-		if (__FALSE == mini->error)
-		{
-			exec_cmds();
-			waitpid(-1, NULL, 0);
-		}
-		// print_cmd();
-		__clean_all();
-	}
-	while(1);
+	minishell(mini);
 	return (EXIT_SUCCESS);
 }

@@ -91,17 +91,11 @@ void			__error_wildcard__(t_mini *s);
 **	EXEC
 */
 
-// t_boolean		exec(t_mini *s);
-int				__is_builtins__(t_command *cmd);
 t_boolean		exec_builtins(t_command *cmd);
 
 /*
 **	BUILTINS
 */
-
-t_boolean		builtins_echo(t_mini *s, t_command *cmd);
-t_boolean		builtins_exit(t_mini *s, t_command *cmd);
-
 
 void                exec_cd(t_command *cmd);
 void                exec_echo(t_command *cmd);
@@ -125,5 +119,7 @@ int	                is_builtin(t_command *cmd);
 void	            create_heredoc(t_command *cmd);
 
 void	            add_env_back(t_env **alst, t_env *new);
+t_boolean			exec_builtins(t_command *cmd);
+
 
 #endif
