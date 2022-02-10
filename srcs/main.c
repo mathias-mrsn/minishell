@@ -30,76 +30,11 @@ void
 	s->error = 0;
 }
 
-void	create_heredoc(t_command *cmd)
-{
-	int		fd;
-	char	*line;
 
-	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
-	if (fd < 0)
-	{
-		__puterr("Error while creating Heredoc!");
-		//("Error while creating Heredoc!");
-	}
-	while (1)
-	{
-		write(1, "heredoc> ", 9);
-		line = __gnl(0);
-		if (!__strncmp(cmd->limiter, line, __strlen(cmd->limiter)))
-			break ;
-		write(fd, line, __strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-	free(line);
-	close(fd);
-	cmd->infile = open(".heredoc_tmp", O_RDONLY, 0644);
-	if (cmd->infile < 0)
-	{
-			unlink(".heredoc_tmp");
-			//("Infile error !");
-	}
-}
 
-int	is_builtin(t_command *cmd)
-{
-	if (!__strncmp("cd", cmd->command, 3))
-	{
-		switch_io(cmd);
-		exec_cd(cmd);
-	}
-	else if (!__strncmp("pwd", cmd->command, 4))
-	{
-		switch_io(cmd);
-		exec_pwd();
-	}
-	else if (!__strncmp("echo", cmd->command, 5))
-	{
-		switch_io(cmd);
-		exec_echo(s(), cmd);
-	}
-	else if (!__strncmp("export", cmd->command, 7))
-	{
-		switch_io(cmd);
-		exec_export(cmd);
-	}
-	else if (!__strncmp("unset", cmd->command, 6))
-	{
-		exec_unset(cmd);
-	}
-	else if (!__strncmp("exit", cmd->command, 5))
-	{
-		exec_exit(s(),cmd);
-	}
-	else if (!__strncmp("env", cmd->command, 4))
-	{
-		switch_io(cmd);
-		exec_env();
-	}
-	else
-		return (0);
-	return (1);
-}
+
+
+
 
 
 int
@@ -122,18 +57,19 @@ int
  }
 
 t_boolean
- 	exec_builtins(t_mini *s, t_command *cmd)
+ 	exec_builtins(t_command *cmd)
  {
- 	static t_boolean	(*f[NBR_BUILDINS])() = {exec_unset, exec_exit, exec_env, exec_export,
+ 	static void	(*f[NBR_BUILDINS])() = {exec_unset, exec_exit, exec_env, exec_export,
 		exec_cd, exec_pwd, exec_echo};
  	const int		i = __is_builtins__(cmd);
 
+	if (0 == i)
+		return (__FAILURE);
 	if (i > 2)
 		switch_io(cmd);
- 	f[i - 1](s, cmd);
+ 	f[i - 1](cmd);
  	return (__SUCCESS);
  }
-
 
 
 
@@ -149,7 +85,6 @@ void	switch_io(t_command *cmd)
 {	
 	if (cmd->type == PIP)
     {
-		write(2, "here\n", 5);
         dup2(cmd->tube[1], 1);
         close(cmd->tube[0]);
     }
@@ -255,7 +190,6 @@ void	close_open_files(void)
 			close(cmd->infile);
 		if (cmd->outfile)
 			close(cmd->outfile);
-		// if (cmd->limiter)
 		unlink(".heredoc_tmp");
 		cmd = cmd->next;
 	}
@@ -270,14 +204,15 @@ void	exec_cmds(void)
 	{
 		if (!check_pipe(cmd))
 			return ;
-		if (!is_builtin(cmd))
+		if (__FAILURE == exec_builtins(cmd))
 		{
 			cmd->child = fork();
 			if (cmd->child == 0)
 				exec(cmd);
 		}
 		close_prev_pipe(cmd);
-		waitpid(cmd->child, NULL, 0);
+		if (cmd->child)
+			waitpid(cmd->child, NULL, 0);
 		cmd = cmd->next;
 	}
 	close_open_files();
@@ -300,10 +235,8 @@ int
 		__reset__(mini);
 		print_prompt(mini);
 		lexer(mini);
-		if (__FALSE == mini->error)
-			trimer(mini);
-		if (__FALSE == mini->error)
-			parsing(mini);
+		trimer(mini);
+		parsing(mini);
 		if (__FALSE == mini->error)
 		{
 			exec_cmds();

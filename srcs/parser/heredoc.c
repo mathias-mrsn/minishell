@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/06 16:35:13 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:00:43 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ static void
 	char		*var_value;
 	char		*final;
 
-	begin = __strldup((*str), (*idx));
+	begin = __mstrldup((*str), (*idx), TRASH_STOCKAGE);
 	end = (*idx) + 1;
-	if ((*str)[(*idx) + 1] == DOLLAR)
+	if ((*str)[(*idx) + 1] == '?')
 	{
 		end += 1;
-		var_value = __get_exit_code__(s);
+		var_value = __mitoa(s->g_exit_code, TRASH_STOCKAGE);
 	}
 	else
 	{
 		while(__isalnum((*str)[end]) || (*str)[end] == '_')
 			end++;
-		var = __strldup((*str) + (*idx) + 1, end - (*idx) - 1);
-		var_value = __get_env_var__(s, var);
+		var = __mstrldup((*str) + (*idx) + 1, end - (*idx) - 1, TRASH_STOCKAGE);
+		var_value = value_from_key(var);
 	}
-	final = __strjoin(begin, __strjoin(var_value, __strdup((*str) + end)));
+	final = __strjoin(begin, __mstrjoin(var_value, __mstrdup((*str) + end, TRASH_STOCKAGE), TRASH_STOCKAGE));
 	(*idx) += __strlen(var_value);
 	(*str) = final;
 }

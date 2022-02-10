@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/08 16:38:06 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:22:28 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void
 
 	tmp = s->lexer;
 	cmd = add_command_front(&s->cmd);
-
-	while (tmp)
+	while (tmp && s->error != __TRUE)
 	{
 		if (__next_is_pip__(tmp) == __TRUE)
 			cmd->type = PIP;
@@ -113,18 +112,10 @@ void
 t_boolean
 	parsing(t_mini *s)
 {
-	if (NULL == s->lexer)
-		return (__SUCCESS);
+	if (NULL == s->lexer || s->error == __TRUE)
+		return (__FAILURE);
 	show_token();
 	cmd_parsing_hub(s);
-	show_cmd();
+	// show_cmd();
 	return (__SUCCESS);
 }
-
-// DR_LEFT - ARGS - ARGS - PIP - ARGS
-
-// heredoc
-// execute cmd
-// |
-// |
-// execute cmd

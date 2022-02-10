@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:17:29 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/02 16:13:57 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:12:58 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void
 	char *str;
 
 	str = lexer->argument;
-	while (*str)
+	while (*str && s->error != __TRUE)
 	{
 		if (*str == '\'')
 			__set_quote__(s, &str, lexer);
@@ -62,12 +62,12 @@ static void
 }
 
 void
-	set_t_quotes(t_mini *s)
+	set_quotes(t_mini *s)
 {
 	t_lexer	*tmp;
 
 	tmp = s->lexer;
-	while (NULL != tmp)
+	while (NULL != tmp && s->error != __TRUE)
 	{
 		if (tmp->token == ARGS)
 			change_t_quotes(s, tmp);

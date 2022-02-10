@@ -6,7 +6,10 @@
 */
 
 uint8_t			get_env(t_mini *s, char **env);
-
+char            *value_from_key(char *key);
+int             in_env_from_key(char *key);
+void            new_env(char *new);
+void            replace_env(char *new);
 /*
 **	MEMORY
 */
@@ -24,7 +27,7 @@ void			print_prompt(t_mini *s);
 */
 
 t_boolean			lexer(t_mini *s);
-void				set_t_quotes(t_mini *s);
+void				set_quotes(t_mini *s);
 t_boolean			lexer_checker(t_mini *s);
 void				__skip_white_space__(t_mini *s);
 void				__add_token_pip__(t_mini *s);
@@ -39,8 +42,6 @@ void				__add_token_arg__(t_mini *s);
 */
 
 t_boolean			trimer(t_mini *s);
-char				*__get_exit_code__(t_mini *s);
-char				*__get_env_var__(t_mini *s, char *name);
 
 /*
 **	PARSER
@@ -92,7 +93,7 @@ void			__error_wildcard__(t_mini *s);
 
 // t_boolean		exec(t_mini *s);
 int				__is_builtins__(t_command *cmd);
-t_boolean		exec_builtins(t_mini *s, t_command *cmd);
+t_boolean		exec_builtins(t_command *cmd);
 
 /*
 **	BUILTINS
@@ -103,11 +104,12 @@ t_boolean		builtins_exit(t_mini *s, t_command *cmd);
 
 
 void                exec_cd(t_command *cmd);
-t_boolean           exec_echo(t_mini *s, t_command *cmd);
-void                exec_env(void);
-t_boolean           exec_exit(t_mini *s, t_command *cmd);
+void                exec_echo(t_command *cmd);
+void                exec_env(t_command *cmd);
+void                exec_exit(t_command *cmd);
 void                exec_export(t_command *cmd);
-void                exec_pwd(void);
+void                exec_pwd(t_command *cmd);
+void                exec_unset(t_command *cmd);
 
 /*
 ** EXEC
@@ -121,7 +123,6 @@ void	            exec(t_command *cmd);
 void	            switch_io(t_command *cmd);
 int	                is_builtin(t_command *cmd);
 void	            create_heredoc(t_command *cmd);
-void                exec_unset(t_command *cmd);
 
 void	            add_env_back(t_env **alst, t_env *new);
 

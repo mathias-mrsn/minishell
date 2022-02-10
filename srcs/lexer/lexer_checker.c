@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:20:15 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/02 15:54:59 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:16:39 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_boolean
 	t_lexer *lexer;
 
 	lexer = s->lexer;
-	while(lexer)
+	while(lexer && s->error != __TRUE)
 	{
 		if (__FAILURE == check_in_dict(s, lexer, dict))
 			return (__FAILURE);

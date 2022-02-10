@@ -26,6 +26,34 @@ void		sort_env(char **tab, int env_len)
 	}
 }
 
+char    *value_from_key(char *key)
+{
+    t_env   *current;
+
+    current = *(s()->env_lst);
+    while (current)
+    {
+        if (!__strncmp(current->key, key, (__strlen(key) + 1)))
+            return (current->value);
+        current = current->next;
+    }
+    return (NULL);
+}
+
+int    in_env_from_key(char *key)
+{
+    t_env   *current;
+
+    current = *(s()->env_lst);
+    while (current)
+    {
+        if (!__strncmp(current->key, key, (__strlen(key) + 1)))
+            return (current->in_env);
+        current = current->next;
+    }
+    return (0);
+}
+
 void    print_sorted_env(void)
 {
     char    **env;
@@ -44,9 +72,9 @@ void    print_sorted_env(void)
     lst = *(s()->env_lst);
     while(lst)
     {
-        env[size] = __strdup(lst->full);
+        env[size] = __mstrdup(lst->key, __DONT_STOCK_MEM);
         size++;
-        lst =lst->next;
+        lst = lst->next;
     }
     env[size] = NULL;
     sort_env(env, size);
@@ -55,35 +83,43 @@ void    print_sorted_env(void)
     {
         __putstr("declare -x ", 1);
         __putstr(env[size] , 1);
-        if (env[size][__strlen(env[size]) - 1] == '=')
+        if (in_env_from_key(env[size]))
         {
+            __putstr("=", 1);
             __putchar('"', 1);
+            __putstr(value_from_key(env[size]), 1);
             __putchar('"', 1);
         }
         __putstr("\n", 1);
-        free(env[size]);
+        //free(env[size]);
         size++;
     }
-    free(env);
+    //free(env);
 }
 
 int     new_env_type(char *new)
 {
     char    **splited;
     t_env   *current;
+    int     concat;
 
+    concat = 0;
     if (!__isalpha(new[0]))
         return (0);
-    splited = __split(new, '=');
+    splited = __msplit(new, '=', __DONT_STOCK_MEM);
     current  = *(s()->env_lst);
+    if (splited[0][__strlen(splited[0]) - 1] == '+')
+        concat = 1;
     while (current)
     {
-        if (!__strncmp(splited[0], current->key, (__strlen(splited[0]) + 1)))
+        if (!__strncmp(splited[0], current->key, (__strlen(splited[0]) - concat)) && !current->key[__strlen(splited[0])])
         {
             free(splited[0]);
             if (splited[1])
                 free(splited[1]);
             free(splited);
+            if (concat)
+                return (3);
             return(1);
         }
         else
@@ -104,8 +140,8 @@ void    new_env(char *new)
     new_elem = malloc(sizeof(t_env));
     if (!new)
         return ;
-    splited = __split(new, '=');
-    new_elem->full = __strdup(new);
+    splited = __msplit(new, '=', __DONT_STOCK_MEM);
+    new_elem->full = __mstrdup(new, __DONT_STOCK_MEM);
     new_elem->key = splited[0];
     if (splited[1])
         new_elem->value = splited[1];
@@ -125,7 +161,7 @@ void    replace_env(char *new)
     char    **splited;
     t_env   *current;
 
-    splited = __split(new, '=');
+    splited = __msplit(new, '=', __DONT_STOCK_MEM);
     current = *(s()->env_lst);
     while (current)
     {
@@ -141,6 +177,42 @@ void    replace_env(char *new)
             free(splited[0]);
             free(splited);
             current->full = new;
+            return ;
+        }
+        current = current->next;
+    }
+}
+
+void    concat_env(char *new)
+{
+    char    **splited;
+    t_env   *current;
+    char    *tmp;
+
+    splited = __msplit(new, '=', __DONT_STOCK_MEM);
+    current = *(s()->env_lst);
+    while (current)
+    {
+        if (!__strncmp(current->key, splited[0], (__strlen(current->key))) && splited[0][__strlen(current->key)] == '+')
+        {
+            if (splited[1])
+            {
+                tmp = __mstrjoin(current->value, splited[1], __DONT_STOCK_MEM);
+                free(current->value);
+                current->value = tmp;
+            }
+            splited[0][__strlen(splited[0]) - 1] = 0;
+            tmp = __mstrjoin(splited[0], "=", __DONT_STOCK_MEM);
+            free(current->full);
+            if (current->value)
+                current->full = __mstrjoin(tmp, current->value, __DONT_STOCK_MEM);
+            else
+                current->full = __mstrdup(tmp, __DONT_STOCK_MEM);
+            current->in_env = 1;
+            free(tmp);
+            free(splited[0]);
+            if (splited[1])
+                free(splited[1]);
             return ;
         }
         current = current->next;
@@ -173,6 +245,8 @@ void    exec_export(t_command *cmd)
                 replace_env(cmd->args[i]);
             else if (type == 2)
                 new_env(cmd->args[i]);
+            else if (type == 3)
+                concat_env(cmd->args[i]);
             i++;
         }
     }

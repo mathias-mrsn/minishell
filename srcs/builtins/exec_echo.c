@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_echo.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/08 18:12:26 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/08 18:12:26 by mamaurai         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
  static t_boolean
@@ -32,15 +20,15 @@
  	return (__SUCCESS);
  }
 
- t_boolean
- 	exec_echo(t_mini *s, t_command *cmd)
+void
+ 	exec_echo(t_command *cmd)
  {
  	uint32_t	flags;
  	uint64_t	idx;
 
  	idx = 1;
  	flags = 0;
- 	(void)s;
+ 	// (void)s;
  	__check_flag__(cmd, &flags, &idx);
  	while (cmd->args[idx])
  	{
@@ -51,5 +39,4 @@
  	}
  	if (0 == flags)
  		__putstr("\n", 1);
- 	return (__SUCCESS);
- }
+}

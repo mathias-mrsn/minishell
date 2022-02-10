@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:19:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/02 16:06:13 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:16:07 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void
 	size = 0;
 	save = s->prompt;
 	add_token_back(&s->lexer, UNSET, ARGS);
-	while (*s->prompt && __FALSE == __is_charset(*s->prompt, TOKEN_CS))
+	while (*s->prompt && __FALSE == __is_charset(*s->prompt, TOKEN_CS) && s->error != __TRUE)
 	{
 		if (*s->prompt == SINGLE_QUOTES)
 			__skip_quote__(s, &size);

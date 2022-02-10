@@ -11,7 +11,7 @@
 # define PROGRAM_NAME "minishell"
 # define OPTION_CHARSET "-"
 # define TOKEN_CS "|>< "
-# define NBR_BUILDINS	7
+# define NBR_BUILDINS 7
 
 /*
 **	DICT	
@@ -28,5 +28,6 @@
 
 # define LEXER_STOCKAGE	3
 # define COMMAND_STOCKAGE 4
+# define TRASH_STOCKAGE 127
 
 #endif

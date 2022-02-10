@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:20:27 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/28 12:43:03 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:17:45 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,18 @@ t_boolean
 	lexer(t_mini *s)
 {
 	const char *save = s->prompt;
-	t_boolean error;
-
-	error = __SUCCESS;
+	
 	if (NULL == s->prompt)
 		return (__SUCCESS);
-	while ('\0' != *s->prompt)
+	while ('\0' != *s->prompt && s->error != __TRUE)
 	{
-		if (error == __FAILURE)
-			return (__FAILURE); //voir cette sortie
 		if (__TRUE == __isempty(*s->prompt))
 			__skip_white_space__(s);
 		else
-			error = tokenizer(s);
+			tokenizer(s);
 	}
-	set_t_quotes(s);
-	if (__FAILURE == lexer_checker(s))
+	set_quotes(s);
+	if (s->error == __TRUE || __FAILURE == lexer_checker(s))
 		return (__FAILURE);
 	s->prompt = (char *)save;
 	return (__SUCCESS);

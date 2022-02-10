@@ -1,27 +1,35 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_exit.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/08 18:14:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/08 18:14:43 by mamaurai         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
- static void
- 	__exit__(t_mini *s)
- {
- 	const uint8_t	code = s->g_exit_code;
+// void    free_env_lst(void)
+// {
+//     t_env   **env_lst;
+//     t_env   *current;
+//     t_env   *tmp;
 
- 	__clean_all();
- 	clear_history();
- 	free(s);
- 	exit(code);
- }
+//     env_lst = s()->env_lst;
+//     current = *env_lst;
+//     while (current)
+//     {
+//         free(current->full);
+//         free(current->key);
+//         free(current->value);
+//         tmp = current;
+//         current = current->next;
+//         free(tmp);
+//     }
+//     free(env_lst);
+// }
+
+static void
+	__exit__(t_mini *s)
+{
+	const uint8_t	code = s->g_exit_code;
+
+	__clean_all();
+	clear_history();
+	free(s);
+	exit(code);
+}
 
  static void
  	__exit_with_value__(t_mini *s, char **strs, size_t strslen)
@@ -39,25 +47,29 @@
  		__exit__(s);
  }
 
- t_boolean
- 	exec_exit(t_mini *s, t_command *cmd)
+void
+ 	exec_exit(t_command *cmd)
  {
  	const size_t strslen = __strslen(cmd->args) - 1;
 
  	if (strslen == 0)
- 		return (__putstr("exit\n", STDERR_FILENO), __exit__(s), __SUCCESS);
+	{
+		__putstr("exit\n", STDERR_FILENO);
+		__exit__(s());
+	}
  	else if (strslen && __TRUE == __str_is(cmd->args[1], __IS_DIGIT))
- 		return (__putstr("exit\n", STDERR_FILENO),
- 			__exit_with_value__(s, cmd->args, strslen), __SUCCESS);
+	{
+		__putstr("exit\n", STDERR_FILENO);
+		__exit_with_value__(s(), cmd->args, strslen);
+	}
  	else
  	{
- 		s->g_exit_code = 255;
+ 		s()->g_exit_code = 255;
  		__putstr("exit\n", STDERR_FILENO);
  		__putstr(PROGRAM_NAME, STDERR_FILENO);
  		__putstr(": exit: ", STDERR_FILENO);
  		__putstr(cmd->args[1], STDERR_FILENO);
  		__putstr(": numeric argument required\n", STDERR_FILENO);
- 		__exit__(s);
- 	}		
- 	return (__SUCCESS);
- } 
+ 		__exit__(s());
+ 	}
+ }

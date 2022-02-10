@@ -20,6 +20,37 @@ char
 	return (NULL);
 }
 
+t_env	**env_to_lst(char **env, uint64_t size)
+{
+	t_env		**lst;
+	t_env		*new;
+	char		**splited;
+	uint64_t	i;
+
+	lst = malloc(sizeof(t_env *));
+	if (!lst)
+		return (NULL);
+	(*lst) = NULL;
+	i = 0;
+	while (i < size)
+	{
+		new = malloc(sizeof(t_env));
+		if (!new)
+			return (NULL);
+		splited = __msplit(env[i], '=', __DONT_STOCK_MEM);
+		new->full = __mstrdup(env[i], __DONT_STOCK_MEM);
+		new->key = __mstrdup(splited[0], __DONT_STOCK_MEM);
+		new->value = __mstrdup(splited[1], __DONT_STOCK_MEM);
+		new->next = NULL;
+		//free(splited[0]);
+		//free(splited[1]);
+		//free(splited);
+		add_env_back(lst, new);
+		i++;
+	}
+	return (lst);
+}
+
 uint8_t
 	get_env(t_mini *s, char **env)
 {
@@ -28,6 +59,9 @@ uint8_t
 	size = 0;
 	while(NULL != env[size])
 		size++;
+	s->env_lst = env_to_lst(env, size);
+	if (NULL == s->env_lst)
+		return (__FAILURE); // free s, cmd, env
 	s->env = __malloc((size + 1) * sizeof(char *), 0);
 	if (NULL == s->env)
 		return (__FAILURE); // free s, cmd, env
