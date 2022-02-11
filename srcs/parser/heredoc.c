@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/10 19:00:43 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/11 12:16:15 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,12 @@ void	heredoc(t_mini *s, t_command *cmd)
 	char	*line;
 	char 	*dollar_trimed;
 
-	(void)s;
 	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
-		perror("Error while creating Heredoc!");
+		perror("minishell: .heredoc_tmp cannot be created");
 	while (1)
 	{
-		line = readline("heredoc> ");
+		line = readline("> ");
 		if (!line || !__strncmp(cmd->limiter, line, __strlen(cmd->limiter)))
 			break ;
 		dollar_trimed = heredoc_dollars(s, line);
@@ -78,11 +77,33 @@ void	heredoc(t_mini *s, t_command *cmd)
 	}
 	free(line);
 	close(fd);
+	exit(0);
+}
+
+void
+	fork_heredoc(t_mini *s, t_command *cmd)
+{
+	pid_t	pid;
+	int		return_value;
+
+	pid = fork();
+	return_value = 0;
+	if (pid == 0)
+	{
+		s->prog_state = HEREDOC_CHILD;
+		heredoc(s, cmd);
+	}
+	else
+	{
+		s->prog_state = HEREDOC_FATHER;
+		waitpid(pid, &return_value, 0);
+	}
+	s->prog_state = 0;
 	cmd->infile = open(".heredoc_tmp", O_RDONLY);
 	if (cmd->infile < 0)
 	{
 		unlink(".heredoc_tmp");
-		perror("Infile error !");
+		perror("minishell: .heredoc_tmp cannot be opened");
 	}
 }
 
@@ -93,6 +114,7 @@ t_boolean
 	cmd->limiter = __strdup((*lexer)->next->argument);
 	if (cmd->limiter == NULL)
 		return (__FAILURE);
-	heredoc(s, cmd);
+	fork_heredoc(s, cmd);
+	// heredoc(s, cmd);
 	return (__SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/10 19:22:28 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/11 11:58:47 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,6 @@ t_boolean
 		return (__FAILURE);
 	show_token();
 	cmd_parsing_hub(s);
-	// show_cmd();
+	show_cmd();
 	return (__SUCCESS);
 }

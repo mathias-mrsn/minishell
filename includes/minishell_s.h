@@ -93,6 +93,7 @@ typedef struct s_mini
 	char			*prompt;
 	t_boolean		error;
 	unsigned int	g_exit_code;
+	uint8_t			prog_state;
 	uint8_t			exit_status;
 	uint64_t 		shell_level;
 }				t_mini;
