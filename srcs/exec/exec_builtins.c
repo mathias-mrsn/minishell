@@ -34,6 +34,7 @@ static int
 t_boolean
  	exec_builtins(t_command *cmd)
  {
+
  	static void	(*f[NBR_BUILDINS])() = {exec_unset, exec_exit, exec_env, exec_export,
 		exec_cd, exec_pwd, exec_echo};
  	const int		i = __is_builtins__(cmd);

@@ -131,7 +131,7 @@ void	close_prev_pipe(t_command *cmd)
 	}
 }
 
-void	close_open_files(void)
+void	close_open_files(int stdin_copy, int stdout_copy)
 {
 	t_command *cmd;
 
@@ -139,9 +139,18 @@ void	close_open_files(void)
 	while (cmd)
 	{
 		if (cmd->infile)
+		{
 			close(cmd->infile);
+			dup2(stdin_copy, 0);
+			close(stdin_copy);
+
+		}
 		if (cmd->outfile)
+		{
 			close(cmd->outfile);
+			dup2(stdout_copy, 1);
+			close(stdout_copy);
+		}
 		unlink(".heredoc_tmp");
 		cmd = cmd->next;
 	}
@@ -150,6 +159,8 @@ void	close_open_files(void)
 void	exec_cmds(void)
 {
 	t_command	*cmd;
+	int stdin_copy = dup(0);
+	int stdout_copy = dup(1);
 
 	cmd = s()->cmd;
 	while (cmd)
@@ -167,7 +178,7 @@ void	exec_cmds(void)
 			waitpid(cmd->child, NULL, 0);
 		cmd = cmd->next;
 	}
-	close_open_files();
+	close_open_files(stdin_copy, stdout_copy);
 }
 
 t_boolean

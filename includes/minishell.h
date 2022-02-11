@@ -13,7 +13,6 @@
 #include "minishell_s.h"
 #include "minishell_d.h"
 #include "minishell_f.h"
-
-
+#include <sys/wait.h>
 
 #endif

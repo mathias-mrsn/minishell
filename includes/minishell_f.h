@@ -99,7 +99,7 @@ t_boolean		exec_builtins(t_command *cmd);
 
 void                exec_cd(t_command *cmd);
 void                exec_echo(t_command *cmd);
-void                exec_env(t_command *cmd);
+void                exec_env(void);
 void                exec_exit(t_command *cmd);
 void                exec_export(t_command *cmd);
 void                exec_pwd(t_command *cmd);
@@ -110,7 +110,7 @@ void                exec_unset(t_command *cmd);
 */
 
 void	            exec_cmds(void);
-void	            close_open_files(void);
+void	            close_open_files(int stdin_copy, int stdout_copy);
 void	            close_prev_pipe(t_command *cmd);
 int 	            check_pipe(t_command *cmd);
 void	            exec(t_command *cmd);
