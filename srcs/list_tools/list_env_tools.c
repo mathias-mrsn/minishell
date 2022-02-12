@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   list_env_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 17:56:25 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 11:35:59 by mamaurai         ###   ########.fr       */
+/*   Created: 2022/02/12 11:47:58 by mamaurai          #+#    #+#             */
+/*   Updated: 2022/02/12 11:48:25 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void
-	cmd_parsing(t_command *cmd, t_lexer **lexer)
+void	add_env_back(t_env **alst, t_env *new)
 {
-	if (cmd->command == NULL)
+	t_env	*tmp;
+
+	tmp = (*alst);
+	if (!tmp)
+		(*alst) = new;
+	while (tmp)
 	{
-		cmd->command = __strdup((*lexer)->argument);
-		__strs_add_back(&cmd->args, __strdup((*lexer)->argument));
+		if (tmp->next == NULL)
+		{
+			tmp->next = new;
+			return ;
+		}
+		tmp = tmp->next;
 	}
-	else
-	{
-		if (__str_count((*lexer)->argument, '*'))
-			wildcard(s(), cmd, (*lexer)->argument);
-		else
-			__strs_add_back(&cmd->args, __strdup((*lexer)->argument));
-	}
-	(*lexer) = (*lexer)->next;
 }

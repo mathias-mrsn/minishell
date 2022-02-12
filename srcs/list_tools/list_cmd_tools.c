@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:17:36 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/08 15:31:14 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:48:10 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_command
 	*create_command(t_command *next, t_command *prev)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	cmd = NULL;
 	cmd = (t_command *)__malloc(sizeof(t_command), COMMAND_STOCKAGE);
@@ -30,7 +30,7 @@ static t_command
 t_command
 	*add_command_back(t_command **head)
 {
-	t_command *tmp;
+	t_command	*tmp;
 
 	if (NULL == head)
 		return (NULL);
@@ -45,7 +45,7 @@ t_command
 			{
 				tmp->next = create_command(NULL, tmp);
 				return (tmp->next);
-			} 
+			}
 			tmp = tmp->next;
 		}
 	}
@@ -55,7 +55,7 @@ t_command
 t_command
 	*add_command_front(t_command **head)
 {
-	t_command *tmp;
+	t_command	*tmp;
 
 	if (NULL == head)
 		return (NULL);
@@ -65,31 +65,4 @@ t_command
 	else
 		(*head) = create_command(tmp, NULL);
 	return ((*head));
-}
-
-
-
-
-
-
-
-
-
-void	add_env_back(t_env **alst, t_env *new)
-{
-	t_env	*tmp;
-
-
-	tmp = (*alst);
-	if (!tmp)
-		(*alst) = new;
-	while (tmp)
-	{
-		if (tmp->next == NULL)
-		{
-			tmp->next = new;
-			return ;
-		}
-		tmp = tmp->next;
-	}
 }

@@ -6,17 +6,17 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:54:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/08 16:15:01 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:36:18 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 t_boolean
 	set_simple_left(t_mini *s, t_command *cmd, t_lexer **lexer)
 {
 	int	fd;
-	
+
 	if (__FALSE == __file_exist((*lexer)->next->argument))
 		return (__file_dont_exist__(s, (*lexer)->next->argument), __FAILURE);
 	fd = open((*lexer)->next->argument, O_RDONLY);

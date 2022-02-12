@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/11 12:16:15 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:37:38 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ static void
 	}
 	else
 	{
-		while(__isalnum((*str)[end]) || (*str)[end] == '_')
+		while (__isalnum((*str)[end]) || (*str)[end] == '_')
 			end++;
 		var = __mstrldup((*str) + (*idx) + 1, end - (*idx) - 1, TRASH_STOCKAGE);
 		var_value = value_from_key(var);
 	}
-	final = __strjoin(begin, __mstrjoin(var_value, __mstrdup((*str) + end, TRASH_STOCKAGE), TRASH_STOCKAGE));
+	final = __strjoin(begin, __mstrjoin(var_value,
+				__mstrdup((*str) + end, TRASH_STOCKAGE), TRASH_STOCKAGE));
 	(*idx) += __strlen(var_value);
 	(*str) = final;
 }
@@ -46,7 +47,7 @@ static char
 	uint64_t	idx;
 
 	idx = 0;
-	while(str[idx])
+	while (str[idx])
 	{
 		if (str[idx] == DOLLAR)
 			__heredoc_dollars_change__(s, &str, &idx);
@@ -60,7 +61,7 @@ void	heredoc(t_mini *s, t_command *cmd)
 {
 	int		fd;
 	char	*line;
-	char 	*dollar_trimed;
+	char	*dollar_trimed;
 
 	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
@@ -115,6 +116,5 @@ t_boolean
 	if (cmd->limiter == NULL)
 		return (__FAILURE);
 	fork_heredoc(s, cmd);
-	// heredoc(s, cmd);
 	return (__SUCCESS);
 }

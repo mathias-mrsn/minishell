@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/10 18:36:50 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:57:15 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void
 	__token_syntax_error__(t_mini *s, int error_value)
 {
-	const char *error[6] = {"|", "<", ">", "<<", ">>", "newline"};
+	const char	*error[6] = {"|", "<", ">", "<<", ">>", "newline"};
 
 	__putstr(PROGRAM_NAME, 2);
 	__putstr(": syntax error near unexpected token `", 2);
@@ -28,8 +28,8 @@ void
 void
 	__unclosed_quote__(t_mini *s, int error_value)
 {
-	const char *error[2] = {"\'", "\""};
-	
+	const char	*error[2] = {"\'", "\""};
+
 	__putstr(PROGRAM_NAME, 2);
 	__putstr(": unclosed token detected `", 2);
 	__putstr((char *)error[error_value], 2);

@@ -6,16 +6,16 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:43:00 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/11 18:33:01 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:35:04 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 t_boolean
 	__next_is_pip__(t_lexer *tmp)
 {
-	while(tmp)
+	while (tmp)
 	{
 		if (tmp->token == PIP)
 			return (__TRUE);
@@ -27,7 +27,7 @@ t_boolean
 void
 	cmd_parsing_hub(t_mini *s)
 {
-	t_lexer 	*tmp;
+	t_lexer		*tmp;
 	t_command	*cmd;
 
 	tmp = s->lexer;
@@ -55,19 +55,18 @@ void
 t_boolean
 	show_cmd(void)
 {
-	t_command *cmd;
-	int i;
+	t_command	*cmd;
+	int			i;
 
 	cmd = s()->cmd;
-
-	while(cmd)
+	while (cmd)
 	{
 		i = 0;
 		if (cmd->command)
 			printf("cmd = %s\n", cmd->command);
 		if (cmd->args)
 		{
-			while(cmd->args[i])
+			while (cmd->args[i])
 			{
 				printf("%s - ", cmd->args[i]);
 				i++;
@@ -86,10 +85,11 @@ t_boolean
 void
 	show_token(void)
 {
-	t_lexer *tmp = s()->lexer;
-
+	t_lexer	*tmp;
+	
+	tmp = s()->lexer;
 	printf("TOKEN :\n\n");
-	while(tmp)
+	while (tmp)
 	{
 		printf(" -> ");
 		if (tmp->token == ARGS)
@@ -107,7 +107,7 @@ void
 		tmp = tmp->next;
 	}
 	printf("\n\n");
-}
+} //Delete show functions
 
 t_boolean
 	parsing(t_mini *s)

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:17:29 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/10 19:12:58 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:49:41 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_boolean
 static void
 	change_t_quotes(t_mini *s, t_lexer *lexer)
 {
-	char *str;
+	char	*str;
 
 	str = lexer->argument;
 	while (*str && s->error != __TRUE)

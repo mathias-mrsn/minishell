@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 17:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/26 11:51:11 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:49:01 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_lexer
 	*create_token(t_quotes	quotes, t_token	token, t_lexer *next, t_lexer *prev)
 {
-	t_lexer *lexer;
+	t_lexer	*lexer;
 
 	lexer = NULL;
 	lexer = (t_lexer *)__malloc(sizeof(t_lexer), LEXER_STOCKAGE);
@@ -33,7 +33,7 @@ static t_lexer
 t_boolean
 	add_token_back(t_lexer **head, t_quotes quotes, t_token token)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	if (NULL == head)
 		return (__FAILURE);
@@ -48,7 +48,7 @@ t_boolean
 			{
 				tmp->next = create_token(quotes, token, NULL, tmp);
 				return (__SUCCESS);
-			} 
+			}
 			tmp = tmp->next;
 		}
 	}
@@ -58,7 +58,7 @@ t_boolean
 t_boolean
 	add_token_front(t_lexer **head, t_quotes quotes, t_token token)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	if (NULL == head)
 		return (__FAILURE);
@@ -75,7 +75,7 @@ t_boolean
 t_lexer
 	*find_last_elem(t_lexer **head)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	tmp = (*head);
 	if (NULL == head || NULL == (*head))

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:28:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/06 18:10:53 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:39:48 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ t_boolean
 	idx = 0;
 	while (file[idx] && wc_idx <= wc_len)
 	{
-		if (start == 0 && wc_idx == 0 && __strncmp(file, wc[0], __strlen(wc[0])) != 0)
+		if (start == 0 && wc_idx == 0
+			&& __strncmp(file, wc[0], __strlen(wc[0])) != 0)
 			return (__FAILURE);
-		if (end == 0 && wc_idx == wc_len && __strncmp(file + __strlen(file) - __strlen(wc[wc_len]), wc[wc_len], __strlen(wc[wc_len])))
+		if (end == 0 && wc_idx == wc_len
+			&& __strncmp(file + __strlen(file) - __strlen(wc[wc_len]),
+				wc[wc_len], __strlen(wc[wc_len])))
 			return (__FAILURE);
-		if (wc[wc_idx] && __strncmp(file + idx, wc[wc_idx], __strlen(wc[wc_idx])) == 0)
+		if (wc[wc_idx] && __strncmp(file + idx, wc[wc_idx],
+				__strlen(wc[wc_idx])) == 0)
 			idx += __strlen(wc[wc_idx++]);
 		else
 			idx++;
@@ -37,12 +41,10 @@ t_boolean
 	return (__FAILURE);
 }
 
-
-
 void
 	__swap__(char **a, char **b)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = (*a);
 	(*a) = (*b);
@@ -53,9 +55,9 @@ void
 	__sort_args__(char ***list)
 {
 	size_t	idx;
-	
+
 	idx = 0;
-	while((*list)[idx] && (*list)[idx + 1])
+	while ((*list)[idx] && (*list)[idx + 1])
 	{
 		if (__strcmp((*list)[idx], (*list)[idx + 1]) > 0)
 		{

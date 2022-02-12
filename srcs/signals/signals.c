@@ -6,12 +6,11 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:04:37 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 11:05:02 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 12:07:31 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void
 	handle_int(int signal)
@@ -25,13 +24,13 @@ void
 	{
 		__putchar('\n', 1);
 		s()->g_exit_code = 130;
-		return;
+		return ;
 	}
 	if (signal == SIGINT)
 	{
 		__putchar('\n', 1);
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_redisplay();
 		s()->g_exit_code = 130;
 	}
@@ -57,4 +56,3 @@ void
 	free(s);
 	exit(EXIT_SUCCESS);
 }
-

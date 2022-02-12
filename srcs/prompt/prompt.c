@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:08:54 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/11 18:29:32 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:31:38 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,3 @@ void
 	s->prompt = readline(__get_cross__(s));
 	add_history(s->prompt);
 }
-

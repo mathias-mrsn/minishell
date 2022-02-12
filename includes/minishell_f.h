@@ -34,6 +34,8 @@ void				__add_token_pip__(t_mini *s);
 void				__add_token_r_right__(t_mini *s);
 void				__add_token_r_left__(t_mini *s);
 void				__add_token_arg__(t_mini *s);
+void				__skip_quotes__(t_mini *s, uint64_t *size);
+void				__skip_quote__(t_mini *s, uint64_t *size);
 
 /*
 **	SIGNALS
@@ -67,8 +69,10 @@ t_boolean			__file_match_with_wc__(char *file, const char **wc, int start, int e
 void				__swap__(char **a, char **b);
 void				__sort_args__(char ***list);
 void				__add_to_cmd__(t_command *cmd, char **strs, char *add_front);
-
-
+int					__get_start__(char *str);
+int					__get_end__(char *str);
+t_boolean			__open_dir__(DIR **dir);
+void				__get_list__(char ***list, DIR *dir);
 
 
 

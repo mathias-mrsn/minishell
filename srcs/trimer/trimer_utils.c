@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 17:31:36 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/05 17:01:55 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/12 11:31:21 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ char
 {
 	uint64_t	idx;
 	uint64_t	size;
-	// uint64_t	size;
 
 	idx = 0;
 	if (NULL == s->env)
 		return (NULL);
-	while(s->env[idx])
+	while (s->env[idx])
 	{
-		if (0 == __strncmp(s->env[idx], name, __strlen(name)) && 61 == __strcmp(s->env[idx], name))
+		if (0 == __strncmp(s->env[idx], name, __strlen(name))
+			&& 61 == __strcmp(s->env[idx], name))
 		{
 			size = __get_name_len__(s->env[idx]);
 			return (__strdup(s->env[idx] + size));
