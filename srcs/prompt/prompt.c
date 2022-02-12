@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:08:54 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/01/20 15:41:46 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/11 18:29:32 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char
 	*__get_cross__(t_mini *s)
 {
-	if (s->exit_status)
+	if (s->g_exit_code)
 		return (__HRED"➜ "__BHCYAN" our minishell "__HYELLOW"✗ "__WHITE);
 	else
 		return (__HGREEN"➜ "__BHCYAN" our minishell "__HYELLOW"✗ "__WHITE);

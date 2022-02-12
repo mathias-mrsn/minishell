@@ -35,7 +35,13 @@ void				__add_token_r_right__(t_mini *s);
 void				__add_token_r_left__(t_mini *s);
 void				__add_token_arg__(t_mini *s);
 
+/*
+**	SIGNALS
+*/
 
+void				__ctrl_d_exit__(t_mini *s);
+void				handle_quit(int signal);
+void				handle_int(int signal);
 
 /*
 **	TRIMER

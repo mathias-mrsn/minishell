@@ -181,6 +181,8 @@ void	exec_cmds(void)
 	close_open_files(stdin_copy, stdout_copy);
 }
 
+
+
 t_boolean
 	minishell(t_mini *s)
 {
@@ -188,6 +190,8 @@ t_boolean
 	{
 		__reset__(s);
 		print_prompt(s);
+		if (s->prompt == NULL)
+			__ctrl_d_exit__(s);
 		lexer(s);
 		trimer(s);
 		parsing(s);
@@ -198,7 +202,9 @@ t_boolean
 		}
 		__clean_all();
 	}
+	return (__SUCCESS);
 }
+
 
 int
 	main(int ac, char **av, char **env)
@@ -213,6 +219,8 @@ int
 		return (__puterr(TOO_MANY_ARG_ERR), EXIT_FAILURE);
 	else if (__FAILURE == get_env(mini, env))
 		return (EXIT_FAILURE); //free t_mini
+	signal(SIGQUIT, handle_quit);
+	signal(SIGINT, handle_int);
 	minishell(mini);
 	return (EXIT_SUCCESS);
 }
