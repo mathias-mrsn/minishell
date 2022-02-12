@@ -10,6 +10,10 @@ char            *value_from_key(char *key);
 int             in_env_from_key(char *key);
 void            new_env(char *new);
 void            replace_env(char *new);
+char			**__env_to_strs__(t_mini *s);
+t_boolean		add_new_env(t_env **head, char *full, char *key, char *value);
+size_t			__env_lst_length__(t_env **env);
+
 /*
 **	MEMORY
 */
@@ -128,7 +132,7 @@ void	            switch_io(t_command *cmd);
 int	                is_builtin(t_command *cmd);
 void	            create_heredoc(t_command *cmd);
 
-void	            add_env_back(t_env **alst, t_env *new);
+t_boolean			add_env_back(t_env **head, char *full, char *key, char *value);
 t_boolean			exec_builtins(t_command *cmd);
 
 

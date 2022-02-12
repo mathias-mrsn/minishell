@@ -132,28 +132,18 @@ int     new_env_type(char *new)
     return (2);
 }
 
-void    new_env(char *new)
+void    new_env(char *str)
 {
-    t_env    *new_elem;
-    char    **splited;
+	size_t	idx;
+	char	*key;
+	char	*value;
 
-    new_elem = malloc(sizeof(t_env));
-    if (!new)
-        return ;
-    splited = __msplit(new, '=', __DONT_STOCK_MEM);
-    new_elem->full = __mstrdup(new, __DONT_STOCK_MEM);
-    new_elem->key = splited[0];
-    if (splited[1])
-        new_elem->value = splited[1];
-    else
-        new_elem->value = NULL;
-    if (__strchr(new, '='))
-        new_elem->in_env = 1;
-    else
-        new_elem->in_env = 0;
-    new_elem->next= NULL;
-    add_env_back(s()->env_lst, new_elem);
-    free(splited);
+	idx = 0;
+	while(str[idx] && str[idx] != '=')
+		idx++;
+	key = __mstrldup(str, idx, ENV_STOCKAGE);
+	value = __mstrdup(str + idx + 1, ENV_STOCKAGE);
+    add_new_env(s()->env_lst, __mstrdup(str, ENV_STOCKAGE), key, value);
 }
 
 void    replace_env(char *new)

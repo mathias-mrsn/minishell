@@ -10,13 +10,13 @@ void    exec_env(void)
         return ;
     while (env)
     {
-            
-        if (env->in_env)
-        {
-            __putstr(env->full, 1);
-            __putchar('\n', 1);
-        }
-        env = env->next;
-
-    } 
-}
+		if (env->in_env == 1)
+		{
+			__putstr(env->key, 1);
+			__putstr("=", 1);
+			__putstr(env->value, 1);
+			__putchar('\n', 1);
+		}
+		env = env->next;
+    }
+} 

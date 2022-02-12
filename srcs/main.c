@@ -74,11 +74,29 @@ char	*__cmd(char **cmd_paths, char *args, t_command *cmd)
 	return (NULL);
 }
 
-char	*__paths(char **envp)
+char	*__get_path__(t_mini *s)
 {
-	while (__strncmp("PATH", *envp, 4))
-		envp++;
-	return (*envp + 5);
+	t_env	*tmp;
+
+	tmp = NULL;
+	tmp = (*(s->env_lst));
+	while (tmp)
+	{
+		if (0 == __strcmp(tmp->key, "PATH"))
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+static void
+	__execve__(char *command, char **args)
+{
+	char	**strs;
+
+	strs = __env_to_strs__(s());
+	execve(command, args, strs);
+	__strsfree(strs);
 }
 
 void	exec(t_command *cmd)
@@ -89,7 +107,7 @@ void	exec(t_command *cmd)
 
 	switch_io(cmd);
 	i = 0;
-	paths = __paths(s()->env);
+	paths = __get_path__(s());
 	cmd_paths = __msplit(paths, ':', __DONT_STOCK_MEM);
 	cmd->command = __cmd(cmd_paths, cmd->command, cmd);
 	while(cmd_paths[i])
@@ -107,7 +125,7 @@ void	exec(t_command *cmd)
 		write(2, "\n", 1);
 		return ;
 	}
-	execve(cmd->command, cmd->args, s()->env);
+	__execve__(cmd->command, cmd->args);
 }
 
 int	check_pipe(t_command *cmd)
@@ -163,7 +181,7 @@ void	exec_cmds(void)
 	int stdout_copy = dup(1);
 
 	cmd = s()->cmd;
-	while (cmd)
+	while (cmd && cmd->command)
 	{
 		if (!check_pipe(cmd))
 			return ;
@@ -200,7 +218,6 @@ t_boolean
 			exec_cmds();
 			waitpid(-1, NULL, 0);
 		}
-		__clean_all();
 	}
 	return (__SUCCESS);
 }

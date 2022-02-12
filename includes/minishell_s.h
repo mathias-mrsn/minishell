@@ -99,14 +99,3 @@ typedef struct s_mini
 }				t_mini;
 
 #endif
-
-/*********************** ERRORS CASES
- * > ""
- * > <
- * < >
- * >> >
- * > >>
- * > >
- * > empty
- * 
- */

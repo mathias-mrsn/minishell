@@ -23,6 +23,7 @@
 
 # define LEXER_STOCKAGE	3
 # define COMMAND_STOCKAGE 4
+# define ENV_STOCKAGE 2
 # define TRASH_STOCKAGE 127
 
 /*
