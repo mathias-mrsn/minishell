@@ -6,7 +6,7 @@
 /*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:40:15 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/18 18:29:04 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/18 18:38:08 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	sort_env(char **tab, int env_len)
 	int64_t		i;
 	char	*tmp;
 
+	i = 0;
 	while (tab && tab[i] && i < env_len - 1)
 	{
 		if (__strncmp(tab[i], tab[i + 1], __strlen(tab[i]) + 1) > 0)
