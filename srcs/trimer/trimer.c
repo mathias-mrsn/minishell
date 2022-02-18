@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:26:24 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 11:30:35 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/16 11:16:48 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void
 				end - (*idx) - 1), __DONT_STOCK_MEM);
 	final = __strjoin(begin, __strdup(lexer->argument + end + 1));
 	lexer->argument = final;
+	__memdel((void **)&begin);
 	(*idx) = end - 1;
 }
 

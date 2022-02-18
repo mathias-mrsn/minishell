@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_env.c                                         :+:      :+:    :+:   */
+/*   close_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 14:26:45 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/16 11:28:08 by malouvar         ###   ########.fr       */
+/*   Created: 2022/02/15 17:03:32 by malouvar          #+#    #+#             */
+/*   Updated: 2022/02/15 17:06:19 by malouvar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_env(void)
+void	close_open_files(int stdin_copy, int stdout_copy)
 {
-	t_env	*env;
+	t_command	*cmd;
 
-	env = *(s()->env_lst);
-	if (!env)
-		exit (1);
-	while (env)
+	cmd = s()->cmd;
+	while (cmd)
 	{
-		if (env->in_env == 1)
-		{
-			__putstr(env->key, 1);
-			__putstr("=", 1);
-			__putstr(env->value, 1);
-			__putchar('\n', 1);
-		}
-		env = env->next;
+		if (cmd->infile)
+			close(cmd->infile);
+		if (cmd->outfile)
+			close(cmd->outfile);
+		unlink(".heredoc_tmp");
+		cmd = cmd->next;
 	}
+	dup2(stdin_copy, 0);
+	close(stdin_copy);
+	dup2(stdout_copy, 1);
+	close(stdout_copy);
 }

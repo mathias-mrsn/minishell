@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:02:44 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 12:03:01 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/17 08:46:20 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@
 static void
 	__exit__(t_mini *s)
 {
-	const uint8_t	code = s->g_exit_code;
+	const uint32_t	code = s->g_exit_code;
 
 	__clean_all();
 	clear_history();
-	free(s);
 	exit(code);
 }
 

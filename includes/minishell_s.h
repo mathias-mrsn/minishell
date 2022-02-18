@@ -1,29 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_s.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 17:10:50 by malouvar          #+#    #+#             */
+/*   Updated: 2022/02/17 13:25:24 by mamaurai         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_S_H
 # define MINISHELL_S_H
-
-// typedef struct	s_redir
-// {
-// 	char	*out;
-// 	char	*in;
-// 	int		type;
-// }				t_redir;
-
-// typedef struct s_pip
-// {
-// 	char	*full;
-// 	char	*command;
-// 	char	*option;
-// 	char	**args;
-// 	t_redir	redir;
-// }				t_pip;
 
 typedef enum e_token
 {
 	PIP = '|',
 	R_LEFT = '<',
 	R_RIGHT = '>',
-	// AND,
-	// OR,
 	DR_LEFT,
 	DR_RIGHT,
 	ARGS,
@@ -47,31 +41,32 @@ typedef struct s_lexer
 	t_token			token;
 	char			*argument;
 	t_boolean		readed;
-	struct s_lexer 	*prev;
-	struct s_lexer 	*next;
+	struct s_lexer	*prev;
+	struct s_lexer	*next;
 }				t_lexer;
 
 typedef struct s_command
 {
-	char 			*command;
-	char			*error;
-	char			**args;
-	t_token			type;
-	int				tube[2];
-	int 			infile;
-	int				outfile;
-	char			*limiter;
-	int				nbr_cmd;
-	pid_t			child;
-	t_boolean		builtin;
 	struct s_command	*next;
 	struct s_command	*prev;
+	char				*command;
+	char				*error;
+	char				**args;
+	t_token				type;
+	int					tube[2];
+	int					infile;
+	int					outfile;
+	char				*limiter;
+	int					nbr_cmd;
+	pid_t				child;
+	t_boolean			builtin;
+
 }				t_command;
 
 typedef struct s_dict
 {
-	t_token 		array[3];
-	int				error;	
+	t_token	array[3];
+	int		error;	
 }				t_dict;
 
 typedef struct s_env
@@ -88,14 +83,10 @@ typedef struct s_mini
 	t_lexer			*lexer;
 	t_command		*cmd;
 	t_env			**env_lst;
-	char			**env;
-	char			*path;
 	char			*prompt;
 	t_boolean		error;
 	unsigned int	g_exit_code;
 	uint8_t			prog_state;
-	uint8_t			exit_status;
-	uint64_t 		shell_level;
 }				t_mini;
 
 #endif

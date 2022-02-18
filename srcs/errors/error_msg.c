@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 11:57:15 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/17 18:57:04 by malouvar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void
 	__putstr((char *)error[error_value], 2);
 	__putstr("'\n", 2);
 	s->error = __TRUE;
-	s->g_exit_code = 258;
+	s->g_exit_code = 2;
 }
 
 void
@@ -35,7 +35,7 @@ void
 	__putstr((char *)error[error_value], 2);
 	__putstr("'\n", 2);
 	s->error = __TRUE;
-	s->g_exit_code = 258;
+	s->g_exit_code = 2;
 }
 
 void
@@ -58,4 +58,14 @@ void
 	__putstr(PROGRAM_NAME, STDERR_FILENO);
 	__putstr(": wildcards used out of the current directory\n", STDERR_FILENO);
 	s->g_exit_code = 1;
+}
+
+void
+	__shell_lvl_error__(int *nbr)
+{
+	__putstr(PROGRAM_NAME, STDERR_FILENO);
+	__putstr(": warning: shell level (", STDERR_FILENO);
+	__putnbr((*nbr), STDERR_FILENO);
+	__putstr(") too high, resetting to 1\n", STDERR_FILENO);
+	(*nbr) = 1;
 }

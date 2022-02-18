@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:39:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 12:00:34 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/16 11:46:25 by malouvar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int
 	char		*str;
 	int			idx;
 	const char	*commands[NBR_BUILDINS] = {"unset",
-		"exit", "env", "export", "cd", "pwd", "echo"};
+		"exit", "cd", "export", "env", "pwd", "echo"};
 
 	idx = 0;
 	str = cmd->command;
@@ -34,14 +34,25 @@ static int
 t_boolean
 	exec_builtins(t_command *cmd)
 {
-	static void		(*f[NBR_BUILDINS])() = {exec_unset, exec_exit, exec_env,
-		exec_export, exec_cd, exec_pwd, exec_echo};
+	static void		(*f[NBR_BUILDINS])() = {exec_unset, exec_exit, exec_cd,
+		exec_export, exec_env, exec_pwd, exec_echo};
 	const int		i = __is_builtins__(cmd);
 
 	if (0 == i)
 		return (__FAILURE);
-	if (i > 2)
-		switch_io(cmd);
-	f[i - 1](cmd);
+	if (i > 4 || (i == 4 && !cmd->args[1]))
+	{
+		cmd->child = fork();
+		if (cmd->child == 0)
+		{
+			switch_io(cmd);
+			f[i - 1](cmd);
+			exit(0);
+		}
+		else
+			wait_child(cmd->child);
+	}
+	else
+		f[i - 1](cmd);
 	return (__SUCCESS);
 }

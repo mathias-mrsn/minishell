@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_env.c                                         :+:      :+:    :+:   */
+/*   switch_io.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 14:26:45 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/16 11:28:08 by malouvar         ###   ########.fr       */
+/*   Created: 2022/02/15 17:02:19 by malouvar          #+#    #+#             */
+/*   Updated: 2022/02/15 17:06:13 by malouvar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_env(void)
-{
-	t_env	*env;
-
-	env = *(s()->env_lst);
-	if (!env)
-		exit (1);
-	while (env)
+void	switch_io(t_command *cmd)
+{	
+	if (cmd->prev && cmd->prev->type == PIP)
 	{
-		if (env->in_env == 1)
-		{
-			__putstr(env->key, 1);
-			__putstr("=", 1);
-			__putstr(env->value, 1);
-			__putchar('\n', 1);
-		}
-		env = env->next;
+		dup2(cmd->prev->tube[0], 0);
+		close(cmd->prev->tube[1]);
 	}
+	if (cmd->type == PIP)
+	{
+		dup2(cmd->tube[1], 1);
+		close(cmd->tube[0]);
+	}
+	if (cmd->outfile)
+	{
+		dup2(cmd->outfile, 1);
+	}
+	if (cmd->infile)
+		dup2(cmd->infile, 0);
 }

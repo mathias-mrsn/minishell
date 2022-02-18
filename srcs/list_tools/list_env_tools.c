@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:47:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 18:59:45 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/16 09:26:35 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_env
 	t_env	*env;
 
 	env = NULL;
-	env = __malloc(sizeof(t_env), __DONT_STOCK_MEM);
+	env = __malloc(sizeof(t_env), ENV_STOCKAGE);
 	if (NULL == env)
 		return (__malloc_error__("t_env"), NULL);
 	__bzero(env, sizeof(t_env));
@@ -93,7 +93,7 @@ size_t
 	if (!head || !(*(head)))
 		return (0);
 	tmp = (*(head));
-	while(tmp)
+	while (tmp)
 	{
 		length += 1;
 		tmp = tmp->next;

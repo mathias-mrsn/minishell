@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:08:54 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 11:31:38 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/17 13:43:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ static char
 void
 	print_prompt(t_mini *s)
 {
-	s->prompt = readline(__get_cross__(s));
+	char	*tmp;
+
+	tmp = readline(__get_cross__(s));
+	s->prompt = __mstrdup(tmp, LEXER_STOCKAGE);
 	add_history(s->prompt);
 }

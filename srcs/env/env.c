@@ -1,24 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 16:48:13 by malouvar          #+#    #+#             */
+/*   Updated: 2022/02/17 14:40:27 by mamaurai         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-
-// char
-// 	*__get_env_value__(t_mini *s, char *tofind)
-// {
-// 	uint64_t	index;
-
-// 	index = 0;
-// 	if (!tofind)
-// 		return (NULL);
-// 	if (__SUCCESS == __strncmp(tofind, "?", -1))
-// 		return (__itoa(s->exit_status));
-// 	while (NULL != s->env[index])
-// 	{
-// 		if (__SUCCESS == __str_start_with(s->env[index], tofind) && s->env[index][__strlen(tofind)] == '=')
-// 			return (__strnstr(s->env[index], "=", -1) + 1);
-// 		index++;
-// 	}
-// 	return (NULL);
-// }
 
 t_boolean
 	str_to_lst(t_mini *s, char *str)
@@ -28,7 +20,7 @@ t_boolean
 	char	*value;
 
 	idx = 0;
-	while(str[idx] && str[idx] != '=')
+	while (str[idx] && str[idx] != '=')
 		idx++;
 	if (0 == str[idx])
 		return (__FAILURE);
@@ -43,6 +35,7 @@ void
 {
 	t_env	*tmp;
 	char	*shlvl;
+	int		nbr;
 
 	tmp = NULL;
 	tmp = (*(s->env_lst));
@@ -51,7 +44,10 @@ void
 		if (0 == __strcmp(tmp->key, "SHLVL"))
 		{
 			shlvl = tmp->value;
-			tmp->value = __mitoa(__atoi(shlvl) + 1, ENV_STOCKAGE);
+			nbr = __atoi(shlvl) + 1;
+			if (nbr > 999)
+				__shell_lvl_error__(&nbr);
+			tmp->value = __mitoa(nbr, ENV_STOCKAGE);
 		}
 		tmp = tmp->next;
 	}
@@ -65,7 +61,7 @@ uint8_t
 	if (!env || !(*env))
 		return (__SUCCESS);
 	idx = 0;
-	s->env_lst = __malloc(sizeof(t_env *), __DONT_STOCK_MEM);
+	s->env_lst = __malloc(sizeof(t_env *), ENV_STOCKAGE);
 	if (NULL == s->env_lst)
 		return (__malloc_error__("t_env *"), __FAILURE);
 	while (NULL != env[idx])

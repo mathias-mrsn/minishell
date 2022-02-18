@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_env.c                                         :+:      :+:    :+:   */
+/*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 14:26:45 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/16 11:28:08 by malouvar         ###   ########.fr       */
+/*   Created: 2022/02/15 17:01:36 by malouvar          #+#    #+#             */
+/*   Updated: 2022/02/15 17:06:17 by malouvar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_env(void)
+int	check_pipe(t_command *cmd)
 {
-	t_env	*env;
-
-	env = *(s()->env_lst);
-	if (!env)
-		exit (1);
-	while (env)
+	if (cmd->type == PIP)
 	{
-		if (env->in_env == 1)
-		{
-			__putstr(env->key, 1);
-			__putstr("=", 1);
-			__putstr(env->value, 1);
-			__putchar('\n', 1);
-		}
-		env = env->next;
+		if (pipe(cmd->tube) < 0)
+			return (0);
+		else
+			return (1);
+	}
+	return (1);
+}
+
+void	close_prev_pipe(t_command *cmd)
+{
+	if (cmd->prev && cmd->prev->type == PIP)
+	{
+		close(cmd->prev->tube[0]);
+		close(cmd->prev->tube[1]);
 	}
 }

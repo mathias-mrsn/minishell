@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_d.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 17:10:25 by malouvar          #+#    #+#             */
+/*   Updated: 2022/02/17 10:38:44 by mamaurai         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_D_H
 # define MINISHELL_D_H
 
@@ -25,6 +37,7 @@
 # define COMMAND_STOCKAGE 4
 # define ENV_STOCKAGE 2
 # define TRASH_STOCKAGE 127
+# define GLOB_S_STOCKAGE 42
 
 /*
 **	PROG_STATES
@@ -32,5 +45,7 @@
 
 # define HEREDOC_CHILD 1
 # define HEREDOC_FATHER 2
+# define CHILD 3
+# define FATHER	42
 
 #endif
