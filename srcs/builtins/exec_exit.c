@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:02:44 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/17 08:46:20 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/18 15:23:54 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void    free_env_lst(void)
-// {
-//     t_env   **env_lst;
-//     t_env   *current;
-//     t_env   *tmp;
-
-//     env_lst = s()->env_lst;
-//     current = *env_lst;
-//     while (current)
-//     {
-//         free(current->full);
-//         free(current->key);
-//         free(current->value);
-//         tmp = current;
-//         current = current->next;
-//         free(tmp);
-//     }
-//     free(env_lst);
-// }
 
 static void
 	__exit__(t_mini *s)

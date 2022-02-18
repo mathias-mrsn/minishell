@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_f.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 17:10:38 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/17 20:16:51 by malouvar         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:16:14 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void			invalid_env(char *new);
 int				env_size(t_env *lst);
 void			sort_env(char **tab, int env_len);
 void			print_elem(char **env, int size);
+char			*__get_value__(char *str);
+char 			*__get_key__(char *str);
+
 /*
 **	MEMORY
 */
@@ -118,6 +121,8 @@ void			__file_dont_exist__(t_mini *s, char *str);
 void			__error_wildcard__(t_mini *s);
 void			__shell_lvl_error__(int *nbr);
 void			path_not_set(t_command *cmd);
+void			__env_error_value__(char *new);
+void			__env_option_error__(char *str);
 
 /*
 **	BUILTINS

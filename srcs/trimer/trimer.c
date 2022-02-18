@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trimer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:26:24 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/16 11:16:48 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:01:30 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void
 	begin = __mstrjoin(__strldup(lexer->argument, (*idx)),
 			__strldup(lexer->argument + (*idx) + 1,
 				end - (*idx) - 1), __DONT_STOCK_MEM);
-	final = __strjoin(begin, __strdup(lexer->argument + end + 1));
+	final = __strjoin(begin, __mstrdup(lexer->argument + end + 1, STANDARD_STACK));
 	lexer->argument = final;
 	__memdel((void **)&begin);
 	(*idx) = end - 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:40:15 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/15 16:44:31 by malouvar         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:29:04 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,19 @@
 
 void	sort_env(char **tab, int env_len)
 {
-	int		ordered;
-	int		i;
+	int64_t		i;
 	char	*tmp;
 
-	ordered = 0;
-	while (tab && ordered == 0)
+	while (tab && tab[i] && i < env_len - 1)
 	{
-		ordered = 1;
-		i = 0;
-		while (i < env_len - 1)
+		if (__strncmp(tab[i], tab[i + 1], __strlen(tab[i]) + 1) > 0)
 		{
-			if (__strncmp(tab[i], tab[i + 1], __strlen(tab[i]) + 1) > 0)
-			{
-				tmp = tab[i];
-				tab[i] = tab[i + 1];
-				tab[i + 1] = tmp;
-				ordered = 0;
-			}
-			i++;
+			tmp = tab[i];
+			tab[i] = tab[i + 1];
+			tab[i + 1] = tmp;
+			i = -1;
 		}
-		env_len--;
+		i++;
 	}
 }
 
@@ -45,7 +37,7 @@ char	*value_from_key(char *key)
 	current = *(s()->env_lst);
 	while (current)
 	{
-		if (!__strncmp(current->key, key, (__strlen(key) + 1)))
+		if (!__strcmp(current->key, key))
 			return (current->value);
 		current = current->next;
 	}
@@ -59,7 +51,7 @@ int	in_env_from_key(char *key)
 	current = *(s()->env_lst);
 	while (current)
 	{
-		if (!__strncmp(current->key, key, (__strlen(key) + 1)))
+		if (!__strcmp(current->key, key))
 			return (current->in_env);
 		current = current->next;
 	}
@@ -79,16 +71,4 @@ int	env_size(t_env *lst)
 	return (size);
 }
 
-void	print_elem(char **env, int size)
-{
-	__putstr("declare -x ", 1);
-	__putstr(env[size], 1);
-	if (in_env_from_key(env[size]))
-	{
-		__putstr("=", 1);
-		__putchar('"', 1);
-		__putstr(value_from_key(env[size]), 1);
-		__putchar('"', 1);
-	}
-	__putstr("\n", 1);
-}
+

@@ -3,60 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:26:25 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/16 11:38:43 by malouvar         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:05:40 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	new_env(char *str)
+char
+	*__get_value__(char *str)
 {
 	size_t	idx;
-	char	*key;
-	char	*value;
 
 	idx = 0;
-	while (str[idx] && str[idx] != '=')
+	while (str[idx] && '=' != str[idx] && '+' != str[idx])
 		idx++;
-	key = __mstrldup(str, idx, ENV_STOCKAGE);
-	value = __mstrdup(str + idx + 1, ENV_STOCKAGE);
-	add_new_env(s()->env_lst, __mstrdup(str, ENV_STOCKAGE), key, value);
+	return (__mstrdup(str + idx + __trn32(str[idx] == '+', 2, 1), ENV_STOCKAGE));
+}
+
+char 
+	*__get_key__(char *str)
+{
+	size_t	idx;
+
+	idx = 0;
+	while (str[idx] && '=' != str[idx] && '+' != str[idx])
+		idx++;
+	return (__mstrldup(str, idx, ENV_STOCKAGE));
+}
+
+void	new_env(char *str)
+{
+	add_new_env(s()->env_lst, __mstrdup(str, ENV_STOCKAGE),
+		__get_key__(str), __get_value__(str));
 }
 
 void	replace_env(char *new)
 {
-	char	**splited;
 	t_env	*current;
+	const char	*key = __get_key__(new);
+	const char	*value = __get_value__(new);
 
-	splited = __msplit(new, '=', __DONT_STOCK_MEM);
 	current = *(s()->env_lst);
 	while (current)
 	{
-		if (!__strncmp(current->key, splited[0], (__strlen(splited[0]) + 1)))
+		if (!__strcmp(current->key, key))
 		{
-			free(current->value);
-			if (splited[1])
-				current->value = splited[1];
-			else
-				current->value = NULL;
-			if (__strchr(new, '='))
-				current->in_env = 1;
-			free(splited[0]);
-			free(splited);
+			current->key = (char *)key;
+			current->value = (char *)value;
 			current->full = new;
+			current->in_env = __trn32((__strchr(new, '=') == NULL), 0, 1);;
 			return ;
 		}
 		current = current->next;
 	}
-}
-
-void	invalid_env(char *new)
-{
-	write(2, "export: ", 8);
-	write(2, new, __strlen(new));
-	write(2, ": not a valid identifier\n", 25);
-	s()->g_exit_code = 1;
 }

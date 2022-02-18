@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:04:37 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/17 15:14:02 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/18 15:09:42 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void
 	{
 		__putchar('\n', 1);
 		rl_on_new_line();
-//		rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 		s()->g_exit_code = 130;
 	}

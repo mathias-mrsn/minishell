@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:44:12 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/16 11:35:55 by malouvar         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:21:10 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_elem(char **env, int size)
+{
+	__putstr("declare -x ", 1);
+	__putstr(env[size], 1);
+	if (in_env_from_key(env[size]))
+	{
+		__putstr("=", 1);
+		__putchar('"', 1);
+		__putstr(value_from_key(env[size]), 1);
+		__putchar('"', 1);
+	}
+	__putstr("\n", 1);
+}
 
 void	print_sorted_env(void)
 {
@@ -20,12 +34,11 @@ void	print_sorted_env(void)
 
 	lst = *(s()->env_lst);
 	size = env_size(lst);
-	env = malloc(sizeof(char *) * (size + 1));
+	env = __malloc(sizeof(char *) * (size + 1), TRASH_STOCKAGE);
 	size = 0;
-	lst = *(s()->env_lst);
 	while (lst)
 	{
-		env[size] = __mstrdup(lst->key, __DONT_STOCK_MEM);
+		env[size] = __mstrdup(lst->key, TRASH_STOCKAGE);
 		size++;
 		lst = lst->next;
 	}
@@ -37,40 +50,62 @@ void	print_sorted_env(void)
 		print_elem(env, size);
 		size++;
 	}
+	__clean(TRASH_STOCKAGE);
 }
 
-void	free_splited_export(char **splited)
+t_boolean
+	__incorrect_arg__(char *str)
 {
-	free(splited[0]);
-	if (splited[1])
-		free(splited[1]);
-	free(splited);
+	int64_t	idx;
+
+	if (0 == __strncmp(str, "-", 1))
+		return (__env_option_error__(str), __TRUE);
+	idx = 0;
+	while(str[idx] && ('=' != str[idx] && '+' != str[idx]))
+	{
+		if (__FALSE == __isalpha((int)str[idx]) && str[idx] != '_')
+			return (__env_error_value__(str), __TRUE);
+		idx++;
+	}
+	if (0 == idx)
+		return (__env_error_value__(str), __TRUE);
+	if ('+' == str[idx] && '=' != str[idx + 1])
+		return (__env_error_value__(str), __TRUE);
+	return (__FALSE);
+}
+
+t_boolean
+	__is_in_lst_env__(char *key)
+{
+	t_env	*current;
+
+	current = *(s()->env_lst);
+	if (NULL == key)
+		return (__FALSE);
+	while (current)
+	{
+		if (!__strcmp(current->key, key))
+			return (__TRUE);
+		current = current->next;
+	}
+	return (__FALSE);
 }
 
 int	new_env_type(char *new)
 {
-	char	**splited;
-	t_env	*current;
-	int		concat;
+	char	*key;
+	int		idx;
 
-	concat = 0;
-	if (!__isalpha(new[0]))
+	if (__TRUE == __incorrect_arg__(new))
 		return (0);
-	splited = __msplit(new, '=', __DONT_STOCK_MEM);
-	current = *(s()->env_lst);
-	if (splited[0][__strlen(splited[0]) - 1] == '+')
-		concat = 1;
-	while (current)
-	{
-		if (!__strncmp(splited[0], current->key, (__strlen(splited[0])
-					- concat)) && !current->key[__strlen(splited[0])])
-		{
-			if (concat)
-				return (free_splited_export(splited), 3);
-			return (free_splited_export(splited), 1);
-		}
-		else
-			current = current->next;
-	}
-	return (free_splited_export(splited), 2);
+	idx = 0;
+	while(new[idx] && ('=' != new[idx] && '+' != new[idx]))
+		idx++;
+	key = __mstrldup(new, idx, ENV_STOCKAGE);
+	if (new[idx] == '+' && __is_in_lst_env__(key))
+		return (printf("3\n"), 3);
+	else if (__is_in_lst_env__(key))
+		return (printf("1\n"), 1);
+	else
+		return (printf("2\n"), 2);
 }

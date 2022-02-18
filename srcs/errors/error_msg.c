@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/17 18:57:04 by malouvar         ###   ########.fr       */
+/*   Updated: 2022/02/18 17:21:54 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,20 @@ void
 	__putnbr((*nbr), STDERR_FILENO);
 	__putstr(") too high, resetting to 1\n", STDERR_FILENO);
 	(*nbr) = 1;
+}
+
+void
+	__env_error_value__(char *str)
+{
+	__putstr("minishell: export: `", STDERR_FILENO);
+	__putstr(str, STDERR_FILENO);
+	__putstr("': not a valid identifier\n", STDERR_FILENO);
+}
+
+void
+	__env_option_error__(char *str)
+{
+	__putstr("minishell: export: `", STDERR_FILENO);
+	__putstr(str, STDERR_FILENO);
+	__putstr("': invalid option\n", STDERR_FILENO);	
 }

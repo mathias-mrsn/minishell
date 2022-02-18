@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:39:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/16 11:46:25 by malouvar         ###   ########.fr       */
+/*   Updated: 2022/02/18 15:18:08 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_boolean
 		{
 			switch_io(cmd);
 			f[i - 1](cmd);
+			__clean_all();
 			exit(0);
 		}
 		else
