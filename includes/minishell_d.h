@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_d.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 17:10:25 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/17 10:38:44 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:58:32 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 
 # define HEREDOC_CHILD 1
 # define HEREDOC_FATHER 2
-# define CHILD 3
-# define FATHER	42
+# define OUT_OF_SHELL 3
+# define SHELL	42
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 11:37:38 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:44:12 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_boolean
 	set_here_doc(t_mini *s, t_command *cmd, t_lexer **lexer)
 {
 	(void)s;
-	cmd->limiter = __strdup((*lexer)->next->argument);
+	cmd->limiter = __mstrdup((*lexer)->next->argument, COMMAND_STOCKAGE);
 	if (cmd->limiter == NULL)
 		return (__FAILURE);
 	fork_heredoc(s, cmd);

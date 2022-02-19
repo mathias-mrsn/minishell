@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:52:48 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/17 15:14:17 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:58:59 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	wait_child(pid_t child)
 	waitpid(child, &status, 0);
 	if (WIFEXITED(status))
 		s()->g_exit_code = WEXITSTATUS(status);
+	if (WIFSIGNALED(status) && WCOREDUMP(status))
+	{
+		__putstr("Quit (core dumped)\n", 2);
+		s()->g_exit_code = 131;
+	}
 	s()->prog_state = 0;
 }
 
@@ -63,12 +68,14 @@ int
 	(void)av;
 	(void)env;
 	mini = s();
+	mini->prog_state = SHELL;
 	if (1 != ac)
 		return (__puterr(TOO_MANY_ARG_ERR), EXIT_FAILURE);
 	else if (__FAILURE == get_env(mini, env))
 		return (EXIT_FAILURE);
-	signal(SIGQUIT, handle_quit);
-	signal(SIGINT, handle_int);
+	// signal(SIGQUIT, handle_quit);
+	// signal(SIGINT, handle_int);
+	signal_gestion(mini);
 	minishell(mini);
 	return (EXIT_SUCCESS);
 }

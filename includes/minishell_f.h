@@ -6,7 +6,7 @@
 /*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 17:10:38 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/18 18:16:14 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/19 15:36:30 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ void			__skip_quote__(t_mini *s, uint64_t *size);
 */
 
 void			__ctrl_d_exit__(void);
-void			handle_quit(int signal);
-void			handle_int(int signal);
+// void			handle_quit(int signal);
+// void			handle_int(int signal);
+
+void			signal_gestion(t_mini *s);
 
 /*
 **	TRIMER

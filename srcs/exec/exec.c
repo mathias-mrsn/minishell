@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malouvar <malouvar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:36:01 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/17 20:15:59 by malouvar         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:59:25 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	exec(t_command *cmd)
 
 	switch_io(cmd);
 	i = 0;
-	s()->prog_state = CHILD;
+	s()->prog_state = OUT_OF_SHELL;
 	paths = __get_path__(s());
 	if (!paths)
 		path_not_set(cmd);
@@ -119,7 +119,6 @@ void	exec_cmds(void)
 			cmd->child = fork();
 			if (cmd->child == 0)
 				exec(cmd);
-			s()->g_exit_code = FATHER;
 		}
 		close_prev_pipe(cmd);
 		if (cmd->child)
