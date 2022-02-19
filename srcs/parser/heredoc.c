@@ -6,7 +6,7 @@
 /*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/19 15:44:12 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/19 18:24:03 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void
 	return_value = 0;
 	if (pid == 0)
 	{
-		s->prog_state = HEREDOC_CHILD;
+		s->prog_state = OUT_OF_SHELL;
 		heredoc(s, cmd);
 	}
 	else

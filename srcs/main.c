@@ -6,7 +6,7 @@
 /*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:52:48 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/19 15:58:59 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/19 18:36:52 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_boolean
 {
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		__reset__(s);
 		print_prompt(s);
 		if (s->prompt == NULL)
@@ -68,7 +69,6 @@ int
 	(void)av;
 	(void)env;
 	mini = s();
-	mini->prog_state = SHELL;
 	if (1 != ac)
 		return (__puterr(TOO_MANY_ARG_ERR), EXIT_FAILURE);
 	else if (__FAILURE == get_env(mini, env))

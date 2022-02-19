@@ -6,7 +6,7 @@
 /*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:04:37 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/19 16:04:34 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/19 18:39:14 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void
 }
 
 void
-	handle_int(siginfo_t *siginfo, t_mini *s)
+	handle_int(siginfo_t *siginfo)
 {
-	if (s->prog_state == HEREDOC_CHILD)
+	if (s()->prog_state == OUT_OF_SHELL)
 	{
 		__putchar('\n', 1);
 		exit(0);
@@ -72,14 +72,16 @@ void
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		s->g_exit_code = 130;
+		s()->g_exit_code = 130;
 	}
+	else
+		wait(NULL);
 }
 
 void
-	handle_quit(siginfo_t *siginfo, t_mini *s)
+	handle_quit(siginfo_t *siginfo)
 {
-	if (s->prog_state == HEREDOC_CHILD)
+	if (s()->prog_state == OUT_OF_SHELL)
 	{
 		__putchar('\n', 1);
 		exit(0);
@@ -90,20 +92,17 @@ void
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		(void)s;		
 	}
 }
 
 void
 	signal_handler(int signal, siginfo_t *siginfo, void *data)
 {
-	t_mini	*s;
-
-	s = (t_mini *)data;
+	(void)data;
 	if (signal == SIGINT)
-		handle_int(siginfo, s);
-	if (signal == SIGQUIT && s->prog_state == SHELL)
-		handle_quit(siginfo, s);
+		handle_int(siginfo);
+	if (signal == SIGQUIT && s()->prog_state == SHELL)
+		handle_quit(siginfo);
 }
 
 void
@@ -114,9 +113,14 @@ void
 	(void)s;
 	__memset(&sa, 0, sizeof(struct sigaction));
 	sa.sa_sigaction = signal_handler;
-	sa.sa_flags = SA_SIGINFO | SA_RESTART;
+	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGCHLD);
-	sigaction(SIGINT, &sa, (void *)s);
-	sigaction(SIGQUIT, &sa, (void *)s);	
+	// sigaddset(&sa.sa_mask, SIGCHLD);
+	sigaction(SIGINT, &sa, NULL);
+	// if (s->prog_state == SHELL)
+	// 	signal(SIGQUIT, SIG_IGN);
+	// else if (s->prog_state == OUT_OF_SHELL)
+	// 	signal(S)
+		
+	// sigaction(SIGQUIT, &sa, NULL);	
 }
