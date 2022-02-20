@@ -6,7 +6,7 @@
 /*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:44:12 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/18 18:21:10 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/20 01:08:56 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ int	new_env_type(char *new)
 		idx++;
 	key = __mstrldup(new, idx, ENV_STOCKAGE);
 	if (new[idx] == '+' && __is_in_lst_env__(key))
-		return (printf("3\n"), 3);
+		return (3);
 	else if (__is_in_lst_env__(key))
-		return (printf("1\n"), 1);
+		return (1);
 	else
-		return (printf("2\n"), 2);
+		return (2);
 }

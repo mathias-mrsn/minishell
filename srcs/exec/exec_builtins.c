@@ -6,7 +6,7 @@
 /*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:39:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/18 15:18:08 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/19 22:18:34 by mathias          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_boolean
 		{
 			switch_io(cmd);
 			f[i - 1](cmd);
-			__clean_all();
 			exit(0);
 		}
 		else
