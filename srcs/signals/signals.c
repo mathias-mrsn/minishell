@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:04:37 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/19 18:39:14 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/21 15:34:53 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,12 @@
 void
 	__ctrl_d_exit__(void)
 {
+	uint32_t	exit_c;
+	
+	exit_c = s()->g_exit_code;
 	__putstr("exit\n", 2);
 	__clean_all();
-	exit(EXIT_SUCCESS);
+	exit(exit_c);
 }
 
 void
@@ -118,9 +121,9 @@ void
 	// sigaddset(&sa.sa_mask, SIGCHLD);
 	sigaction(SIGINT, &sa, NULL);
 	// if (s->prog_state == SHELL)
-	// 	signal(SIGQUIT, SIG_IGN);
+	// sigaction(SIGQUIT, &sa, NULL);
 	// else if (s->prog_state == OUT_OF_SHELL)
-	// 	signal(S)
+	signal(SIGQUIT, SIG_IGN);
 		
 	// sigaction(SIGQUIT, &sa, NULL);	
 }

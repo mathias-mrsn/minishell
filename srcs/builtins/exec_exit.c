@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:02:44 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/20 01:08:37 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/21 15:35:04 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static void
 {
 	const uint32_t	code = s->g_exit_code;
 
+	// __print_memory();
 	__clean_all();
+	// __print_memory();
 	clear_history();
 	exit(code);
 }

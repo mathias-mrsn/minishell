@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:52:48 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/19 18:36:52 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/21 15:52:43 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_boolean
 {
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
 		__reset__(s);
 		print_prompt(s);
 		if (s->prompt == NULL)
@@ -60,22 +59,79 @@ t_boolean
 	return (__SUCCESS);
 }
 
+t_boolean
+	exec_atty(t_mini *s)
+{
+	char	*str;
+	
+	str = __gnl(__STDIN);
+	while(str)
+	{
+		s->prompt = str;
+		__reset__(s);
+		if (s->prompt == NULL)
+			__ctrl_d_exit__();
+		lexer(s);
+		trimer(s);
+		parsing(s);
+		if (__FALSE == s->error)
+		{
+			exec_cmds();
+			waitpid(-1, NULL, 0);
+		}
+		str = __gnl(__STDIN);
+	}
+	return (__SUCCESS);
+}
+
+t_boolean
+	exec_arg(t_mini *s, char **av)
+{
+	int 	fd;
+	char	*str;
+
+	if (0 == __file_exist(av[1]))
+		return (__file_dont_exist__(s, av[1]), s->g_exit_code = 127, __FAILURE);
+	fd = open(av[1], O_RDONLY);
+	printf("%s\n", av[1]);
+	str = __gnl(fd);
+	while(str)
+	{
+		s->prompt = str;
+		__reset__(s);
+		if (s->prompt == NULL)
+			__ctrl_d_exit__();
+		lexer(s);
+		trimer(s);
+		parsing(s);
+		if (__FALSE == s->error)
+		{
+			exec_cmds();
+			waitpid(-1, NULL, 0);
+		}
+		str = __gnl(fd);
+	}
+	return (fd);
+	
+}
+
 int
 	main(int ac, char **av, char **env)
 {
 	t_mini	*mini;
 
-	(void)ac;
-	(void)av;
-	(void)env;
 	mini = s();
-	if (1 != ac)
-		return (__puterr(TOO_MANY_ARG_ERR), EXIT_FAILURE);
-	else if (__FAILURE == get_env(mini, env))
+	if (__FAILURE == get_env(mini, env))
 		return (EXIT_FAILURE);
 	// signal(SIGQUIT, handle_quit);
 	// signal(SIGINT, handle_int);
 	signal_gestion(mini);
-	minishell(mini);
+	if (ac > 1)
+		exec_arg(mini, av);
+	else if (isatty(__STDIN) == 0)
+		exec_atty(mini);
+	else
+		minishell(mini);
+	__clean_all();
 	return (EXIT_SUCCESS);
 }

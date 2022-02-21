@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:36:01 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/19 18:37:02 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/21 11:58:43 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	exec(t_command *cmd)
 	switch_io(cmd);
 	i = 0;
 	s()->prog_state = OUT_OF_SHELL;
+	signal(SIGQUIT, SIG_DFL);
 	paths = __get_path__(s());
 	if (!paths)
 		path_not_set(cmd);
