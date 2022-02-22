@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:02:44 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/21 15:35:04 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:44:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ static void
 {
 	const uint32_t	code = s->g_exit_code;
 
-	// __print_memory();
 	__clean_all();
-	// __print_memory();
 	clear_history();
 	exit(code);
 }
@@ -57,7 +55,7 @@ void
 	}
 	else
 	{
-		s()->g_exit_code = 255;
+		s()->g_exit_code = 2;
 		__putstr("exit\n", STDERR_FILENO);
 		__putstr(PROGRAM_NAME, STDERR_FILENO);
 		__putstr(": exit: ", STDERR_FILENO);

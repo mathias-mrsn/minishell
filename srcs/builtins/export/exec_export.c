@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 14:28:50 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/18 18:23:52 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/22 17:43:53 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	concat_env(char *new)
 	char		*tmp;
 
 	current = *(s()->env_lst);
-	while(current)
+	while (current)
 	{
 		if (!__strcmp(current->key, key))
 		{

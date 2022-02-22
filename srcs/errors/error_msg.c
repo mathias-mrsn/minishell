@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/21 15:32:15 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:41:34 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,4 @@ void
 	__putnbr((*nbr), STDERR_FILENO);
 	__putstr(") too high, resetting to 1\n", STDERR_FILENO);
 	(*nbr) = 1;
-}
-
-void
-	__env_error_value__(char *str)
-{
-	__putstr("minishell: export: `", STDERR_FILENO);
-	__putstr(str, STDERR_FILENO);
-	__putstr("': not a valid identifier\n", STDERR_FILENO);
-}
-
-void
-	__env_option_error__(char *str)
-{
-	__putstr("minishell: export: `", STDERR_FILENO);
-	__putstr(str, STDERR_FILENO);
-	__putstr("': invalid option\n", STDERR_FILENO);	
 }

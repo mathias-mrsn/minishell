@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:40:15 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/18 18:38:08 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/22 17:43:44 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sort_env(char **tab, int env_len)
 {
 	int64_t		i;
-	char	*tmp;
+	char		*tmp;
 
 	i = 0;
 	while (tab && tab[i] && i < env_len - 1)
@@ -71,5 +71,3 @@ int	env_size(t_env *lst)
 	}
 	return (size);
 }
-
-

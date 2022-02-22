@@ -6,29 +6,13 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:52:48 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/21 15:52:43 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:53:48 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_child(pid_t child)
-{
-	int	status;
-
-	status = 0;
-	waitpid(child, &status, 0);
-	if (WIFEXITED(status))
-		s()->g_exit_code = WEXITSTATUS(status);
-	if (WIFSIGNALED(status) && WCOREDUMP(status))
-	{
-		__putstr("Quit (core dumped)\n", 2);
-		s()->g_exit_code = 131;
-	}
-	s()->prog_state = 0;
-}
-
-void
+static void
 	__reset__(t_mini *s)
 {
 	s->lexer = NULL;
@@ -38,7 +22,7 @@ void
 	__clean(4);
 }
 
-t_boolean
+static t_boolean
 	minishell(t_mini *s)
 {
 	while (1)
@@ -59,43 +43,13 @@ t_boolean
 	return (__SUCCESS);
 }
 
-t_boolean
-	exec_atty(t_mini *s)
+static t_boolean
+	exec_fd(t_mini *s, int fd)
 {
 	char	*str;
-	
-	str = __gnl(__STDIN);
-	while(str)
-	{
-		s->prompt = str;
-		__reset__(s);
-		if (s->prompt == NULL)
-			__ctrl_d_exit__();
-		lexer(s);
-		trimer(s);
-		parsing(s);
-		if (__FALSE == s->error)
-		{
-			exec_cmds();
-			waitpid(-1, NULL, 0);
-		}
-		str = __gnl(__STDIN);
-	}
-	return (__SUCCESS);
-}
 
-t_boolean
-	exec_arg(t_mini *s, char **av)
-{
-	int 	fd;
-	char	*str;
-
-	if (0 == __file_exist(av[1]))
-		return (__file_dont_exist__(s, av[1]), s->g_exit_code = 127, __FAILURE);
-	fd = open(av[1], O_RDONLY);
-	printf("%s\n", av[1]);
 	str = __gnl(fd);
-	while(str)
+	while (str)
 	{
 		s->prompt = str;
 		__reset__(s);
@@ -111,27 +65,38 @@ t_boolean
 		}
 		str = __gnl(fd);
 	}
-	return (fd);
-	
+	return (__SUCCESS);
+}
+
+static t_boolean
+	exec_arg(t_mini *s, char **av)
+{
+	int		fd;
+
+	if (0 == __file_exist(av[1]))
+		return (__file_dont_exist__(s, av[1]), s->g_exit_code = 127, __FAILURE);
+	fd = open(av[1], O_RDONLY);
+	exec_fd(s, fd);
+	return (__SUCCESS);
 }
 
 int
 	main(int ac, char **av, char **env)
 {
-	t_mini	*mini;
+	t_mini		*mini;
+	uint32_t	exit_c;
 
 	mini = s();
 	if (__FAILURE == get_env(mini, env))
 		return (EXIT_FAILURE);
-	// signal(SIGQUIT, handle_quit);
-	// signal(SIGINT, handle_int);
 	signal_gestion(mini);
 	if (ac > 1)
 		exec_arg(mini, av);
 	else if (isatty(__STDIN) == 0)
-		exec_atty(mini);
+		exec_fd(mini, __STDIN);
 	else
 		minishell(mini);
+	exit_c = mini->g_exit_code;
 	__clean_all();
-	return (EXIT_SUCCESS);
+	return (exit_c);
 }

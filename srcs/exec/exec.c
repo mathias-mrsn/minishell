@@ -6,26 +6,11 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:36:01 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/21 11:58:43 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:38:54 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// t_boolean
-// 	exec(t_mini *s)
-// {
-// 	t_command *cmd;
-
-// 	cmd = s->cmd;
-// 	while(cmd)
-// 	{
-// 		if (cmd->command && __is_builtins__(cmd))
-// 			exec_builtins(s, cmd);
-// 		cmd = cmd->next;
-// 	}
-// 	return (__SUCCESS);
-// }
 
 char	*__cmd(char **cmd_paths, char *args, t_command *cmd)
 {
@@ -80,7 +65,6 @@ void	exec(t_command *cmd)
 
 	switch_io(cmd);
 	i = 0;
-	s()->prog_state = OUT_OF_SHELL;
 	signal(SIGQUIT, SIG_DFL);
 	paths = __get_path__(s());
 	if (!paths)

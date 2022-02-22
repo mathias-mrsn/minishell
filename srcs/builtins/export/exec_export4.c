@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:44:12 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/20 01:08:56 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/22 17:42:16 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_boolean
 	if (0 == __strncmp(str, "-", 1))
 		return (__env_option_error__(str), __TRUE);
 	idx = 0;
-	while(str[idx] && ('=' != str[idx] && '+' != str[idx]))
+	while (str[idx] && ('=' != str[idx] && '+' != str[idx]))
 	{
 		if (__FALSE == __isalpha((int)str[idx]) && str[idx] != '_')
 			return (__env_error_value__(str), __TRUE);
@@ -99,7 +99,7 @@ int	new_env_type(char *new)
 	if (__TRUE == __incorrect_arg__(new))
 		return (0);
 	idx = 0;
-	while(new[idx] && ('=' != new[idx] && '+' != new[idx]))
+	while (new[idx] && ('=' != new[idx] && '+' != new[idx]))
 		idx++;
 	key = __mstrldup(new, idx, ENV_STOCKAGE);
 	if (new[idx] == '+' && __is_in_lst_env__(key))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:26:25 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/18 18:05:40 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/22 17:43:16 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ char
 	idx = 0;
 	while (str[idx] && '=' != str[idx] && '+' != str[idx])
 		idx++;
-	return (__mstrdup(str + idx + __trn32(str[idx] == '+', 2, 1), ENV_STOCKAGE));
+	return (__mstrdup(str + idx + __trn32(str[idx] == '+', 2, 1),
+			ENV_STOCKAGE));
 }
 
-char 
+char
 	*__get_key__(char *str)
 {
 	size_t	idx;
@@ -42,7 +43,7 @@ void	new_env(char *str)
 
 void	replace_env(char *new)
 {
-	t_env	*current;
+	t_env		*current;
 	const char	*key = __get_key__(new);
 	const char	*value = __get_value__(new);
 
@@ -54,7 +55,7 @@ void	replace_env(char *new)
 			current->key = (char *)key;
 			current->value = (char *)value;
 			current->full = new;
-			current->in_env = __trn32((__strchr(new, '=') == NULL), 0, 1);;
+			current->in_env = __trn32((__strchr(new, '=') == NULL), 0, 1);
 			return ;
 		}
 		current = current->next;
