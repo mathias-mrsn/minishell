@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias <mathias@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:39:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/19 22:18:34 by mathias          ###   ########.fr       */
+/*   Updated: 2022/02/24 10:29:10 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ t_boolean
 			f[i - 1](cmd);
 			exit(0);
 		}
-		else
-			wait_child(cmd->child);
 	}
 	else
 		f[i - 1](cmd);

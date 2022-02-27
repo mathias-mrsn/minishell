@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:53:20 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 12:06:40 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/23 12:11:36 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void
 			s->prompt++;
 		}
 	}
-	(find_last_elem(&s->lexer))->argument = __strldup(save, size);
+	(find_last_elem(&s->lexer))->argument = __mstrldup(save,
+		size, LEXER_STOCKAGE);
 }

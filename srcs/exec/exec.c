@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:36:01 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/22 17:38:54 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/24 11:18:07 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,8 @@ void	exec_cmds(void)
 				exec(cmd);
 		}
 		close_prev_pipe(cmd);
-		if (cmd->child)
-			wait_child(cmd->child);
 		cmd = cmd->next;
 	}
+	wait_child();
 	close_open_files(stdin_copy, stdout_copy);
 }

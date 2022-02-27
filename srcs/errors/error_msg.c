@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:53:30 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/22 17:41:34 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/24 11:09:47 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void
 	__putstr(PROGRAM_NAME, 2);
 	__putstr(": ", 2);
 	__putstr(str, 2);
-	__putstr(": No such file or directory", 2);
-	__putstr("'\n", 2);
+	if (errno == 2)
+		__putstr(": No such file or directory", 2);
+	else
+		__putstr(": Permission denied", 2);
+	__putstr("\n", 2);
 	s->error = __TRUE;
 	s->g_exit_code = 1;
 }

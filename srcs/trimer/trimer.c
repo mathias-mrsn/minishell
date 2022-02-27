@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:26:24 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/22 17:37:08 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/23 11:11:36 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static void
 		else
 			end++;
 	}
+	if (lexer->argument == 0)
+		end -= 1;
 	begin = __mstrjoin(__strldup(lexer->argument, (*idx)),
 			__strldup(lexer->argument + (*idx) + 1,
 				end - (*idx) - 1), __DONT_STOCK_MEM);
@@ -90,7 +92,7 @@ t_boolean
 	t_lexer	*lexer;
 
 	lexer = s->lexer;
-	while (NULL != lexer)
+	while (NULL != lexer && s->error != __TRUE)
 	{
 		if (lexer->token == ARGS)
 		{

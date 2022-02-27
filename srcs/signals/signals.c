@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 11:04:37 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/22 17:39:39 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/24 10:00:44 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,30 +44,11 @@ void
 }
 
 void
-	handle_quit(siginfo_t *siginfo)
-{
-	if (s()->prog_state == OUT_OF_SHELL)
-	{
-		__putchar('\n', 1);
-		exit(0);
-	}
-	if (siginfo->si_pid != 0)
-	{
-		__putchar('\n', 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void
 	signal_handler(int signal, siginfo_t *siginfo, void *data)
 {
 	(void)data;
 	if (signal == SIGINT)
 		handle_int(siginfo);
-	if (signal == SIGQUIT && s()->prog_state == SHELL)
-		handle_quit(siginfo);
 }
 
 void

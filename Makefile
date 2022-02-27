@@ -1,6 +1,47 @@
 NAME =		minishell
 
-SRCS = 		${shell find ./srcs -name "*.c"}
+SRCS = 		./srcs/parser/input.c \
+			./srcs/parser/wildcard/wilcard_utils_2.c \
+			./srcs/parser/wildcard/wildcard.c \
+			./srcs/parser/wildcard/wildcar_utils.c \
+			./srcs/parser/heredoc.c \
+			./srcs/parser/output.c \
+			./srcs/parser/parsing.c \
+			./srcs/parser/args.c \
+			./srcs/env/env.c \
+			./srcs/memory/singleton.c \
+			./srcs/main.c \
+			./srcs/builtins/exec_cd.c \
+			./srcs/builtins/exec_exit.c \
+			./srcs/builtins/exec_pwd.c \
+			./srcs/builtins/exec_echo.c \
+			./srcs/builtins/exec_env.c \
+			./srcs/builtins/export/exec_export.c \
+			./srcs/builtins/export/exec_export2.c \
+			./srcs/builtins/export/exec_export3.c \
+			./srcs/builtins/export/exec_export4.c \
+			./srcs/builtins/exec_unset.c \
+			./srcs/errors/error_msg_2.c \
+			./srcs/errors/error_msg.c \
+			./srcs/errors/malloc.c \
+			./srcs/list_tools/list_lexer_tools.c \
+			./srcs/list_tools/list_cmd_tools.c \
+			./srcs/list_tools/list_env_tools.c \
+			./srcs/lexer/lexer_quotes.c \
+			./srcs/lexer/lexer.c \
+			./srcs/lexer/token_utils_lexer.c \
+			./srcs/lexer/token_utils_lexer_2.c \
+			./srcs/lexer/lexer_checker.c \
+			./srcs/signals/signals.c \
+			./srcs/io/switch_io.c \
+			./srcs/io/pipes.c \
+			./srcs/io/close_files.c \
+			./srcs/prompt/prompt.c \
+			./srcs/exec/wait_pid.c \
+			./srcs/exec/exec.c \
+			./srcs/exec/exec_builtins.c \
+			./srcs/trimer/trimer.c
+
 
 OBJS = ${SRCS:.c=.o}
 INCS	=	-I ./includes -I ./libft/includes

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:52:48 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/22 17:53:48 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/24 10:31:45 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ static t_boolean
 		trimer(s);
 		parsing(s);
 		if (__FALSE == s->error)
-		{
 			exec_cmds();
-			waitpid(-1, NULL, 0);
-		}
 	}
 	return (__SUCCESS);
 }
@@ -59,10 +56,7 @@ static t_boolean
 		trimer(s);
 		parsing(s);
 		if (__FALSE == s->error)
-		{
 			exec_cmds();
-			waitpid(-1, NULL, 0);
-		}
 		str = __gnl(fd);
 	}
 	return (__SUCCESS);

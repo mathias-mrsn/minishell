@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 17:13:29 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/17 14:38:20 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/24 11:05:07 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@
 # include "minishell_d.h"
 # include "minishell_f.h"
 # include <sys/wait.h>
+# include <errno.h>
 
 #endif

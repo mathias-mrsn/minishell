@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 17:10:38 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/21 15:32:09 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/24 10:11:53 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int				env_size(t_env *lst);
 void			sort_env(char **tab, int env_len);
 void			print_elem(char **env, int size);
 char			*__get_value__(char *str);
-char 			*__get_key__(char *str);
+char			*__get_key__(char *str);
 
 /*
 **	MEMORY
@@ -152,6 +152,6 @@ int				is_builtin(t_command *cmd);
 void			create_heredoc(t_command *cmd);
 t_boolean		add_env_back(t_env **head, char *full, char *key, char *value);
 t_boolean		exec_builtins(t_command *cmd);
-void			wait_child(pid_t child);
+void			wait_child(void);
 void			__execve__(char *command, char **args);
 #endif 

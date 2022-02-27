@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:19:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/02/12 11:55:11 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/23 11:15:58 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ void
 		(*size)++;
 		s->prompt++;
 	}
-	(*size)++;
-	s->prompt++;
+	if (*s->prompt)
+	{
+		(*size)++;
+		s->prompt++;
+	}
 }
 
 void
@@ -43,6 +46,9 @@ void
 		(*size)++;
 		s->prompt++;
 	}
-	(*size)++;
-	s->prompt++;
+	if (*s->prompt)
+	{
+		(*size)++;
+		s->prompt++;
+	}
 }

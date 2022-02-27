@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 17:10:50 by malouvar          #+#    #+#             */
-/*   Updated: 2022/02/17 13:25:24 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/02/24 09:12:52 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ typedef struct s_mini
 	t_command		*cmd;
 	t_env			**env_lst;
 	char			*prompt;
+	uint32_t		nbr_pid;
 	t_boolean		error;
+	pid_t			*pid;
 	unsigned int	g_exit_code;
 	uint8_t			prog_state;
 }				t_mini;
